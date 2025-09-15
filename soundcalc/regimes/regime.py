@@ -1,0 +1,79 @@
+from __future__ import annotations
+
+import math
+from typing import Optional, Dict, Any
+
+from ..zkevms.zkevm import zkEVMParams
+
+
+class Regime:
+    """
+    A class representing a generic regime.
+    Soundcalc supports four regimes:
+    - ethSTARK,
+    - Unique Decoding,
+    - List Decoding up to Johnson Bound,
+    - List Decoding up to Capacity Bound.
+    Code for those regimes can be found in files across this directory.
+
+    This class carries around the soundness errors and computes the final bits of security
+    """
+
+    # XXX document what a "soundness error" is
+
+    # This is the error from the proximity gaps paper
+    e_proximity_gap: Optional[float] = None
+    # This is the batched-FRI commit-phase soundness error
+    # It is described in Theorem 2 of Ha22
+    # it is also described in Theorem 1 of the eSTARK paper
+    e_FRI_commit_phase: Optional[float] = None
+    # This is the batched-FRI query-phase soundness error
+    e_FRI_query_phase: Optional[float] = None
+    # This is the final FRI soundness error
+    e_FRI_final: Optional[float] = None
+    # This is the final proof system soundness error
+    e_final: Optional[float] = None
+
+    # Soundness error for the rest of the proof system
+    e_ALI: Optional[float] = None
+    e_DEEP: Optional[float] = None
+    e_PLONK: Optional[float] = None
+    e_PLOOKUP: Optional[float] = None
+
+    def identifier(self) -> str:
+        raise NotImplementedError
+
+    def estimate(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
+        raise NotImplementedError
+
+    def gets_bits_of_security(self) -> tuple[float, dict[str, Any]]:
+        """Convert soundness error to bits of security"""
+        # The errors below MUST be set at this point.
+        # Whereas some other errors (e.g. e_proximity_gaps) might not be set in some regimes (e.g. ethSTARK)
+        assert self.e_final
+        assert self.e_FRI_commit_phase
+        assert self.e_FRI_query_phase
+        assert self.e_FRI_final
+        assert self.e_PLONK
+        assert self.e_PLOOKUP
+        # Assert for all other errors if we are not in the ethSTARK regime
+        if self.identifier() != "ethstark":
+            assert self.e_proximity_gap
+            assert self.e_ALI
+            assert self.e_DEEP
+
+        bits = -math.log2(self.e_final)
+        details: Dict[str, Any] = {
+            "e_proximity_gaps": self.e_proximity_gap,
+            "e_FRI_constant": self.e_FRI_commit_phase,
+            "e_FRI_queries": self.e_FRI_query_phase,
+            "e_FRI_final": self.e_FRI_final,
+            "e_final": self.e_final,
+        }
+        # Include granular proof-system components if available
+        details["e_ALI"] = self.e_ALI
+        details["e_DEEP"] = self.e_DEEP
+        details["e_PLONK"] = self.e_PLONK
+        details["e_PLOOKUP"] = self.e_PLOOKUP
+        return (bits, details)
+
