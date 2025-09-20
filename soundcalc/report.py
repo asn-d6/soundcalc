@@ -1,3 +1,5 @@
+"""This file is a mess"""
+
 from __future__ import annotations
 
 import math

@@ -77,3 +77,29 @@ class Regime:
         details["e_PLOOKUP"] = self.e_PLOOKUP
         return (bits, details)
 
+    def _print_bits_of_security_for_error(self, error: Optional[float], label: str) -> None:
+        """Print error as bits of security if not None"""
+        if error is not None:
+            bits = -math.log2(error)
+            print(f"    {label}: {bits:.1f}b")
+
+    def print_security_summary(self) -> None:
+        """
+        Print a detailed security breakdown for this regime.
+        Shows all error components as bits of security.
+        """
+        print(f"  {self.identifier()}:")
+
+        # Print FRI-related errors as bits of security
+        self._print_bits_of_security_for_error(self.e_proximity_gap, "proximity_gaps")
+        self._print_bits_of_security_for_error(self.e_FRI_commit_phase, "FRI_constant")
+        self._print_bits_of_security_for_error(self.e_FRI_query_phase, "FRI_queries")
+        self._print_bits_of_security_for_error(self.e_FRI_final, "FRI_final")
+
+        # Print proof system errors as bits of security
+        self._print_bits_of_security_for_error(self.e_ALI, "ALI")
+        self._print_bits_of_security_for_error(self.e_DEEP, "DEEP")
+        self._print_bits_of_security_for_error(self.e_PLONK, "PLONK")
+        self._print_bits_of_security_for_error(self.e_PLOOKUP, "PLOOKUP")
+        self._print_bits_of_security_for_error(self.e_final, "final")
+

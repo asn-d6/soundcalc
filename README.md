@@ -42,7 +42,7 @@ The codebase is heavily based on [RISC0's Python soundness calculator](https://g
 
 More inspiration:
 - [RISC0 Rust calculator](https://github.com/risc0/risc0/blob/release-2.0/risc0/zkp/src/prove/soundness.rs)
-- [Giacomo's FRI scripts](https://github.com/WizardOfMenlo/stir-whir-scripts/)
+- [`stir-whir-scripts`](https://github.com/WizardOfMenlo/stir-whir-scripts/)
 - [Winterfell calculator](https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs)
 - [xkcd](https://xkcd.com/927/)
 
