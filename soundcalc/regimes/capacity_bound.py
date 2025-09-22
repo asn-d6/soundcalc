@@ -60,7 +60,7 @@ class CapacityBoundRegime(Regime):
         """
         # ASN This computation is again kinda different between Ha22 and STIR conjecture.
         # Clarify and document why we are using this one.
-        r_plus = get_rho_plus(self.params.H, self.params.D, self.params.max_combo)
+        r_plus = get_rho_plus(self.params.trace_length, self.params.D, self.params.max_combo)
         assert theta < 1 - r_plus
         eta_plus = 1 - r_plus - theta
 
@@ -71,5 +71,5 @@ class CapacityBoundRegime(Regime):
         Get the proximity gap error for the capacity bound regime.
         This is the second item of Conjecture 8.4 in the BCIKS20 paper.
         """
-        return 1 / ((eta * rho) ** c_1) * self.params.L * (self.params.D ** c_2) / self.params.F
+        return 1 / ((eta * rho) ** c_1) * self.params.num_polys * (self.params.D ** c_2) / self.params.F
 

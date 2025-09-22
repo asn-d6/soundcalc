@@ -27,7 +27,7 @@ class UniqueDecodingRegime(Regime):
         self.e_proximity_gap = self._get_proximity_gap_error(rho)
         self.e_FRI_commit_phase = self.e_proximity_gap
 
-        self.e_FRI_query_phase = get_FRI_query_phase_error(theta, params.s, params.grinding_query_phase)
+        self.e_FRI_query_phase = get_FRI_query_phase_error(theta, params.num_queries, params.grinding_query_phase)
         self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
 
         # For unique decoding, list size is naturally 1
@@ -52,4 +52,4 @@ class UniqueDecodingRegime(Regime):
         Get the proximity gap error for the unique decoding regime.
         This is the error of the commit phase of FRI as computed by the correlated agreement theorem in BCIKS20.
         """
-        return (self.params.D + 1) * (self.params.L + (self.params.FRI_folding_factor - 1) * self.params.FRI_rounds_n) / self.params.F
+        return (self.params.D + 1) * (self.params.num_polys + (self.params.FRI_folding_factor - 1) * self.params.FRI_rounds_n) / self.params.F

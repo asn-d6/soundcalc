@@ -22,7 +22,7 @@ class MidenPreset:
         # blowup_factor = 4 => rho = 1/4
         rho = 1 / 4.0
         # trace_length = 2^18
-        H = 1 << 18
+        trace_length = 1 << 18
 
         # Miden does 20 bits of PoW grinding during the FRI query phase
         grinding_query_phase = 20
@@ -34,13 +34,13 @@ class MidenPreset:
         field = GOLDILOCKS_2
 
         # num_constraints =  100
-        C = 100
+        num_columns = 100
 
         # num_committed_polys = 2 ???
-        L = 2
+        num_polys = 2
 
         # num_queries = 119
-        s = 119  # num_queries
+        num_queries = 119  # num_queries
 
         # XXX ???
         max_combo = 2
@@ -48,11 +48,11 @@ class MidenPreset:
         cfg = zkEVMConfig(
             name="miden",
             rho=rho,
-            H=H,
+            trace_length=trace_length,
             field=field,
-            C=C,
-            L=L,
-            s=s,
+            num_columns=num_columns,
+            num_polys=num_polys,
+            num_queries=num_queries,
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,

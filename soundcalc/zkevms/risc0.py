@@ -15,7 +15,7 @@ class Risc0Preset:
            https://dev.risczero.com/proof-system-in-detail.pdf
         """
         rho = 1 / 4.0
-        H = 1 << 21
+        trace_length = 1 << 21
 
         field = BABYBEAR_4
 
@@ -33,11 +33,11 @@ class Risc0Preset:
         cfg = zkEVMConfig(
             name="risc0",
             rho=rho,
-            H=H,
+            trace_length=trace_length,
             field=field,
-            C=C,
-            L=L,
-            s=s,
+            num_columns=C,
+            num_polys=L,
+            num_queries=s,
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,

@@ -62,7 +62,7 @@ class JohnsonBoundRegime(Regime):
         Get list size for the Johnson bound regime.
         The value is from the Guruswami-Sudan decoder.
         """
-        r_plus = get_rho_plus(self.params.H, self.params.D, self.params.max_combo)
+        r_plus = get_rho_plus(self.params.trace_length, self.params.D, self.params.max_combo)
         assert theta < 1 - math.sqrt(r_plus)
         m_plus = self._get_minimal_m_plus(r_plus, alpha)
         assert theta <= 1 - math.sqrt(r_plus) * (1 + 1 / (2 * m_plus))

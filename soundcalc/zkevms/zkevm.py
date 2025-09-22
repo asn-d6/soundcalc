@@ -21,15 +21,15 @@ class zkEVMConfig:
     # The code rate ρ
     rho: float
     # Domain size before low-degree extension (i.e. trace length)
-    H: int
+    trace_length: int
     # Preset field parameters (contains p, ext_size, F)
     field: FieldParams
     # Total columns of AIR table
-    C: int
-    # Number of polynomials appearing in the FRI batch. In this configuration L = C + 4
-    L: int
+    num_columns: int
+    # Number of polynomials appearing in the batched-FRI
+    num_polys: int
     # Number of FRI queries
-    s: int
+    num_queries: int
 
     # FRI folding factor (arity of folding per round)
     FRI_folding_factor: int
@@ -55,10 +55,10 @@ class zkEVMParams:
         # Copy the parameters over (also see docs just above)
         self.name = zkevm_cfg.name
         self.rho = zkevm_cfg.rho
-        self.H = zkevm_cfg.H
-        self.C = zkevm_cfg.C
-        self.L = zkevm_cfg.L
-        self.s = zkevm_cfg.s
+        self.trace_length = zkevm_cfg.trace_length
+        self.num_columns = zkevm_cfg.num_columns
+        self.num_polys = zkevm_cfg.num_polys
+        self.num_queries = zkevm_cfg.num_queries
         self.max_combo = zkevm_cfg.max_combo
         self.FRI_folding_factor = zkevm_cfg.FRI_folding_factor
         self.FRI_early_stop_degree = zkevm_cfg.FRI_early_stop_degree
@@ -69,9 +69,9 @@ class zkEVMParams:
         # Negative log of rate
         self.k = int(round(-log2(self.rho)))
         # Log of trace length
-        self.h = int(round(log2(self.H)))
+        self.h = int(round(log2(self.trace_length)))
         # Domain size, after low-degree extension
-        self.D = self.H / self.rho
+        self.D = self.trace_length / self.rho
 
         # Extract field parameters from the preset field
         # Extension field degree (e.g., ext_size = 2 for Fp²)

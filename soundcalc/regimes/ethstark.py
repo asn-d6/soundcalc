@@ -26,11 +26,11 @@ class EthStarkRegime(Regime):
         # FRI errors under ethSTARK conjecture
         # see "Toy problem security" in 5.9.1 of the ethSTARK paper
         self.e_FRI_commit_phase = 1 / params.F
-        self.e_FRI_query_phase = math.pow(rho, params.s)
+        self.e_FRI_query_phase = math.pow(rho, params.num_queries)
         self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
 
         # Compute proof system errors, but ignore ALI/DEEP under ethSTARK conjecture
-        (_, _, self.e_PLONK, self.e_PLOOKUP) = get_proof_system_errors(params.L, params)
+        (_, _, self.e_PLONK, self.e_PLOOKUP) = get_proof_system_errors(params.num_polys, params)
 
         self.e_final = self.e_FRI_final + self.e_PLONK + self.e_PLOOKUP
 
