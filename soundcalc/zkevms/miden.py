@@ -24,7 +24,8 @@ class MidenPreset:
         # trace_length = 2^18
         H = 1 << 18
 
-        # XXX Miden does 20 bits of grinding
+        # Miden does 20 bits of PoW grinding during the FRI query phase
+        grinding_query_phase = 20
 
         FRI_folding_factor = 2
         #  "let fri_remainder_max_degree = 127;"
@@ -55,6 +56,7 @@ class MidenPreset:
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,
+            grinding_query_phase=grinding_query_phase,
         )
         return zkEVMParams(cfg)
 

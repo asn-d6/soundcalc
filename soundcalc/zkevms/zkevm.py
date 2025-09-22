@@ -40,6 +40,9 @@ class zkEVMConfig:
     # Maximum number of entries from a single column referenced in a single constraint
     max_combo: int
 
+    # Proof of Work grinding compute during FRI query phase (expressed in bits of security)
+    grinding_query_phase: int
+
 
 class zkEVMParams:
     """
@@ -59,6 +62,7 @@ class zkEVMParams:
         self.max_combo = zkevm_cfg.max_combo
         self.FRI_folding_factor = zkevm_cfg.FRI_folding_factor
         self.FRI_early_stop_degree = zkevm_cfg.FRI_early_stop_degree
+        self.grinding_query_phase = zkevm_cfg.grinding_query_phase
 
         # Now, also compute some auxiliary parameters
 

@@ -6,12 +6,19 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ..zkevms.zkevm import zkEVMParams
 
-def get_FRI_query_phase_error(theta: float, s: int) -> float:
+def get_FRI_query_phase_error(theta: float, s: int, grinding_query_phase_bits: int) -> float:
     """
-    Compute the soundness error for `s` queries.
+    Compute the FRI query phase soundness error.
     See the last term of Equation 7 in Theorem 2 of Ha22.
+
+    It includes `grinding_query_phase_bits` bits of grinding.
     """
-    return (1 - theta) ** s
+    FRI_query_phase_error = (1 - theta) ** s
+
+    # Add bits of security from grinding (see section 6.3 in ethSTARK)
+    FRI_query_phase_error *= 2 ** (-grinding_query_phase_bits)
+
+    return FRI_query_phase_error
 
 def get_johnson_parameter_m() -> float:
     """
@@ -38,6 +45,7 @@ def get_num_FRI_folding_rounds(
         n //= int(folding_factor)
         rounds += 1
     return rounds
+
 
 
 def _get_batched_FRI_commit_phase_error(
@@ -75,8 +83,8 @@ def get_FRI_soundness_error(
         params.FRI_rounds_n, params.FRI_folding_factor
     )
 
-    # Compute FRI query phase error
-    e_FRI_query_phase = get_FRI_query_phase_error(theta, params.s)
+    # Compute FRI query phase error (includes grinding internally)
+    e_FRI_query_phase = get_FRI_query_phase_error(theta, params.s, params.grinding_query_phase)
 
     # Total FRI error
     e_FRI_final = e_FRI_commit_phase + e_FRI_query_phase

@@ -41,6 +41,7 @@ class Risc0Preset:
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,
+            grinding_query_phase=0,
         )
         return zkEVMParams(cfg)
 
