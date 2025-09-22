@@ -1,3 +1,4 @@
+- Implement grinding
 - Implement proof size computation (see how [Giacomo does it](https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/protocol/proof_size.rs) in stir-whir-scripts)
 - Implement 1.5 JB for RS
 - Resolve XXXs and ASNs around the codebase

@@ -12,6 +12,9 @@ class MidenPreset:
 
         For Miden, we use the parameteers from the get_100_bits_security() test
         in https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
+
+        Parts of their proof system are described in the "STARK-based Signatures from the RPO Permutation" paper:
+            https://eprint.iacr.org/2024/1553
         """
 
         # TODO Not sure if this is the actual parameters used in prod.
@@ -20,6 +23,8 @@ class MidenPreset:
         rho = 1 / 4.0
         # trace_length = 2^18
         H = 1 << 18
+
+        # XXX Miden does 20 bits of grinding
 
         FRI_folding_factor = 2
         #  "let fri_remainder_max_degree = 127;"
