@@ -13,15 +13,21 @@ def get_proof_system_errors(L_plus: float, params: zkEVMParams):
 
     Returns a tuple: (e_ALI, e_DEEP, e_PLONK, e_PLOOKUP)
     """
+
+    # XXX These proof system errors are actually quite RISC0 specific.
+    # See Section 3.4 from the RISC0 technical report.
+    # We might want to generalize this further for other zkEVMs.
+    # For example, Miden also computes similar values for DEEP-ALI in:
+    # https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/air/src/proof/security.rs#L188-L210
     e_ALI = L_plus * params.C / params.F
     e_DEEP = (
         L_plus
         * (4 * (params.H + params.max_combo - 1) + (params.H - 1))
         / (params.F - params.H - params.D)
     )
-    e = params.field_extension_degree
-    e_PLONK = e * 5 * params.H / params.F  # XXX this 5 is a RISC0 magic number n_{σ_{mem}} == 5.
-    e_PLOOKUP = e * 15 * params.H / params.F  # XXX this 15 is a RISC0 magic number n_{σ_{bytes}} == 15.
+
+    e_PLONK = params.field_extension_degree * 5 * params.H / params.F  # XXX this 5 is a RISC0 magic number n_{σ_{mem}} == 5.
+    e_PLOOKUP = params.field_extension_degree * 15 * params.H / params.F  # XXX this 15 is a RISC0 magic number n_{σ_{bytes}} == 15.
     return e_ALI, e_DEEP, e_PLONK, e_PLOOKUP
 
 

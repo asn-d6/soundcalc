@@ -49,7 +49,7 @@ class zkEVMParams:
         """
         Given a zkEVMConfig, compute all the parameters relevant for the zkEVM.
         """
-        # Copy the parameters over
+        # Copy the parameters over (also see docs just above)
         self.name = zkevm_cfg.name
         self.rho = zkevm_cfg.rho
         self.H = zkevm_cfg.H
@@ -57,9 +57,10 @@ class zkEVMParams:
         self.L = zkevm_cfg.L
         self.s = zkevm_cfg.s
         self.max_combo = zkevm_cfg.max_combo
-        # Preserve naming from config: FRI_folding_factor
         self.FRI_folding_factor = zkevm_cfg.FRI_folding_factor
         self.FRI_early_stop_degree = zkevm_cfg.FRI_early_stop_degree
+
+        # Now, also compute some auxiliary parameters
 
         # Negative log of rate
         self.k = int(round(-log2(self.rho)))

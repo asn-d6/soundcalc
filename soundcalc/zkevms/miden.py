@@ -1,18 +1,23 @@
 from __future__ import annotations
 
 from .zkevm import zkEVMConfig, zkEVMParams
-from ..common.fields import GOLDILOCKS_2
+from ..common.fields import *
 
 
 class MidenPreset:
     @staticmethod
     def default() -> "MidenPreset":
-        # Parameters based on get_100_bits_security() in
-        #   https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
+        """
+        Populate a zkEVMConfig instance with zkVM parameters.
+
+        For Miden, we use the parameteers from the get_100_bits_security() test
+        in https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
+        """
+
         # TODO Not sure if this is the actual parameters used in prod.
 
         # blowup_factor = 4 => rho = 1/4
-        rho = 1 / (1 << 2)
+        rho = 1 / 4.0
         # trace_length = 2^18
         H = 1 << 18
 

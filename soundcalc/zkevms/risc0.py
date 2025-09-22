@@ -1,14 +1,20 @@
 from __future__ import annotations
 
 from .zkevm import zkEVMConfig, zkEVMParams
-from ..common.fields import BABYBEAR_4
+from ..common.fields import *
 
 
 class Risc0Preset:
     @staticmethod
     def default() -> "Risc0Preset":
-        # See parameters in https://github.com/risc0/risc0/blob/main/risc0/zkp/src/docs/soundness.ipynb
-        rho = 1 / (1 << 2)
+        """
+        Populate a zkEVMConfig instance with zkVM parameters.
+
+        For RISC0, we use the ones in https://github.com/risc0/risc0/blob/main/risc0/zkp/src/docs/soundness.ipynb
+        Also, see section 3.2 from the RISC0 proof system technical report:
+           https://dev.risczero.com/proof-system-in-detail.pdf
+        """
+        rho = 1 / 4.0
         H = 1 << 21
 
         field = BABYBEAR_4

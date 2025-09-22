@@ -24,7 +24,7 @@ class JohnsonBoundRegime(Regime):
         rho = params.rho
         m = get_johnson_parameter_m()
 
-        alpha, theta = self._get_alpha_theta(rho, m)
+        alpha, theta = self._get_alpha_and_theta(rho, m)
 
         # Compute the FRI error
         self.e_proximity_gap = self._get_proximity_gap_error(rho, m)
@@ -41,7 +41,7 @@ class JohnsonBoundRegime(Regime):
 
         return self.gets_bits_of_security()
 
-    def _get_alpha_theta(self, rho: float, m: float) -> tuple[float, float]:
+    def _get_alpha_and_theta(self, rho: float, m: float) -> tuple[float, float]:
         """
         Compute alpha and theta. See Theorem 2 of Ha22.
         """

@@ -3,7 +3,7 @@ from __future__ import annotations
 from .regime import Regime
 from ..zkevms.zkevm import zkEVMParams
 from soundcalc.common.fri import get_FRI_query_phase_error
-from ..common.utils import get_rho_plus, get_proof_system_errors
+from ..common.utils import get_proof_system_errors
 import math
 
 class UniqueDecodingRegime(Regime):
@@ -20,7 +20,7 @@ class UniqueDecodingRegime(Regime):
         self.params = params
         rho = params.rho
 
-        alpha, theta = self._get_alpha_theta(rho)
+        theta = self._get_theta(rho)
 
         # Compute FRI error components
         # XXX Is this sufficient for the commit phase in the UDR?
@@ -39,13 +39,13 @@ class UniqueDecodingRegime(Regime):
 
         return self.gets_bits_of_security()
 
-    def _get_alpha_theta(self, rho: float) -> tuple[float, float]:
+    def _get_theta(self, rho: float) -> float:
         """
-        Compute alpha and theta for unique decoding regime.
+        Compute theta for the unique decoding regime.
         """
         alpha = 1 - (1 - rho) / 2  # XXX factcheck whether the "1 - " is correct here
         theta = 1 - alpha
-        return alpha, theta
+        return theta
 
     def _get_proximity_gap_error(self, rho: float) -> float:
         """

@@ -58,6 +58,8 @@ class CapacityBoundRegime(Regime):
         Get list size for the capacity bound regime.
         This is conjectured (e.g. see Conjecture 5.6 in the STIR paper)
         """
+        # ASN This computation is again kinda different between Ha22 and STIR conjecture.
+        # Clarify and document why we are using this one.
         r_plus = get_rho_plus(self.params.H, self.params.D, self.params.max_combo)
         assert theta < 1 - r_plus
         eta_plus = 1 - r_plus - theta

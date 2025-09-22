@@ -51,4 +51,5 @@ Based on papers:
 - [ethSTARK](https://eprint.iacr.org/2021/582)
 - [Ha22](https://eprint.iacr.org/2022/1216)
 - [eSTARK](https://eprint.iacr.org/2023/474)
+- [RISC0](https://dev.risczero.com/proof-system-in-detail.pdf)
 

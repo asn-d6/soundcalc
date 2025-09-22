@@ -24,6 +24,7 @@ class EthStarkRegime(Regime):
         rho = params.rho
 
         # FRI errors under ethSTARK conjecture
+        # see "Toy problem security" in 5.9.1 of the ethSTARK paper
         self.e_FRI_commit_phase = 1 / params.F
         self.e_FRI_query_phase = math.pow(rho, params.s)
         self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
