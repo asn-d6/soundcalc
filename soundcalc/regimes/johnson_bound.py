@@ -55,10 +55,19 @@ class JohnsonBoundRegime(Regime):
         """
         Compute alpha and theta. See Theorem 2 of Ha22.
         """
-        # ASN Confusing because all the FRI papers (e.g. Ha22, eSTARK, etc.) define alpha as shown below
-        # but looking at the function log_1_delta() from stir-whir-scripts,
-        # we have: `alpha = 1 - sqrt(rho) - eta` which feels more natural.
-        alpha = (1 + (1 / (2 * m))) * math.sqrt(rho)
+        # ASN Is this a good value for eta?
+
+        # eta denotes our distance from the JB
+        eta = math.sqrt(rho) / (2 * m)
+
+        # Given the above eta, we have:
+        #   alpha = sqrt(rho) * (1 + 1/(2m))
+        # as required by Theorem 2 of Ha22.
+        alpha = math.sqrt(rho) + eta
+
+        # And proximity parameter theta = 1 - sqrt(rho) - eta
+        #                               = 1 - sqrt(rho) * (1 + 1/ (2m) )
+        # as required by Theorem 2 of Ha22.
         theta = 1 - alpha
         return alpha, theta
 
@@ -87,6 +96,7 @@ class JohnsonBoundRegime(Regime):
         """
         Get the proximity gap error for the Johnson bound regime.
         This is the error of the commit phase of FRI as computed by the correlated agreement theorem in BCIKS20.
+        Concretely, Theorem 5.1 in BCIKS20 (eprint) contains this bound.
         """
         return ((m + 0.5) ** 7) / (3 * (rho ** 1.5)) * (self.params.D ** 2) / self.params.F
 
@@ -109,5 +119,3 @@ def get_batched_FRI_commit_phase_error(
     """
     last_term = (2 * m + 1) * (D + 1) * (FRI_rounds_n * FRI_folding_factor) / (math.sqrt(rho) * F)
     return (num_polys - 0.5) * e_proximity_gap + last_term
-
-
