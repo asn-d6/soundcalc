@@ -5,7 +5,8 @@ import math
 
 from .regime import Regime
 from ..zkevms.zkevm import zkEVMParams
-from soundcalc.common.fri import get_johnson_parameter_m, get_FRI_soundness_error
+from soundcalc.common.fri import get_johnson_parameter_m, get_FRI_query_phase_error
+import soundcalc.regimes.johnson_bound as johnson_bound
 from ..common.utils import get_rho_plus, get_proof_system_errors
 
 class CapacityBoundRegime(Regime):
@@ -37,11 +38,21 @@ class CapacityBoundRegime(Regime):
         # Compute theta for this regime
         theta = 1 - rho - eta
 
-        # Compute the FRI error
+        # Compute the FRI errors
         self.e_proximity_gap = self._get_proximity_gap_error(c_1, c_2, eta, rho)
-        self.e_FRI_final, self.e_FRI_commit_phase, self.e_FRI_query_phase = get_FRI_soundness_error(
-            params, self.e_proximity_gap, theta, m
+        # We use the JBR commit phase error in CBR
+        self.e_FRI_commit_phase = johnson_bound.get_batched_FRI_commit_phase_error(
+            params.num_polys,
+            self.e_proximity_gap,
+            m,
+            params.D,
+            params.rho,
+            params.F,
+            params.FRI_rounds_n,
+            params.FRI_folding_factor,
         )
+        self.e_FRI_query_phase = get_FRI_query_phase_error(theta, params.num_queries, params.grinding_query_phase)
+        self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
 
         # Compute list size under this regime
         L_plus = self._get_list_size(theta, c_3)

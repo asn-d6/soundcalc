@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from .regime import Regime
 from ..zkevms.zkevm import zkEVMParams
+from typing import Any
 from soundcalc.common.fri import get_FRI_query_phase_error
 from ..common.utils import get_proof_system_errors
 import math
@@ -25,7 +26,7 @@ class UniqueDecodingRegime(Regime):
 
         theta = self._get_theta(rho)
 
-        # Compute FRI error components
+        # Compute FRI errors
         self.e_proximity_gap = self._get_proximity_gap_error()
         self.e_FRI_commit_phase = self._get_FRI_commit_phase_error()
 
@@ -61,11 +62,19 @@ class UniqueDecodingRegime(Regime):
 
     def _get_FRI_commit_phase_error(self) -> float:
         """
-        Finish up the commit phase soundness error calculation for the UDR.
+        Commit phase error for the Unique Decoding Regime (UDR).
 
-        This function computes the error by taking the union bound over multiple folding rounds, and the probability that the verifier samples bad randomness during FRI folding. See Paul's hackmd for more details.
+        This function computes the error by taking the union bound over multiple folding rounds, and the probability that
+        the verifier samples bad randomness during FRI folding. See Paul's hackmd for more details.
 
-        XXX This function should ideally somehow be integrated into the fri.py module
+        Note: This function is used only in the UDR regime.
         """
-        fri_folding_errors = ((self.params.D + 1) * (self.params.FRI_folding_factor - 1) * self.params.FRI_rounds_n) / self.params.F
-        return self.e_proximity_gap + fri_folding_errors
+        e_proximity_gap = self.e_proximity_gap
+        D = self.params.D
+        FRI_folding_factor = self.params.FRI_folding_factor
+        FRI_rounds_n = self.params.FRI_rounds_n
+        F = self.params.F
+
+        fri_folding_errors = ((D + 1) * (FRI_folding_factor - 1) * FRI_rounds_n) / F
+        return e_proximity_gap + fri_folding_errors
+

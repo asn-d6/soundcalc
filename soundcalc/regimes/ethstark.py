@@ -27,9 +27,8 @@ class EthStarkRegime(Regime):
         # see "Toy problem security" in 5.9.1 of the ethSTARK paper
         self.e_FRI_commit_phase = 1 / params.F
 
-        # Compute FRI query phase error and take into account grinding as well
-        self.e_FRI_query_phase = math.pow(rho, params.num_queries)
-        self.e_FRI_query_phase *= 2 ** (-params.grinding_query_phase)
+        # Compute FRI query phase error
+        self.e_FRI_query_phase = self._get_FRI_query_phase_error()
 
         self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
 
@@ -40,3 +39,13 @@ class EthStarkRegime(Regime):
 
         return self.gets_bits_of_security()
 
+
+    def _get_FRI_query_phase_error(self) -> float:
+        """
+        Compute the FRI query phase soundness error under the ethSTARK conjecture.
+        """
+        fri_query_phase_error = self.params.rho ** self.params.num_queries
+        # Add bits of security from grinding (see section 6.3 in ethSTARK)
+        fri_query_phase_error *= 2 ** (-self.params.grinding_query_phase)
+
+        return fri_query_phase_error

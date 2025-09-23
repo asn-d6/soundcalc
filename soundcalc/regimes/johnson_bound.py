@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from .regime import Regime
 from ..zkevms.zkevm import zkEVMParams
+from typing import Any
 from ..common.utils import get_rho_plus, get_proof_system_errors
 from soundcalc.common.fri import (
     get_johnson_parameter_m,
-    get_FRI_soundness_error,
+    get_FRI_query_phase_error,
 )
 import math
 
@@ -26,11 +27,20 @@ class JohnsonBoundRegime(Regime):
 
         alpha, theta = self._get_alpha_and_theta(rho, m)
 
-        # Compute the FRI error
+        # Compute the FRI errors
         self.e_proximity_gap = self._get_proximity_gap_error(rho, m)
-        self.e_FRI_final, self.e_FRI_commit_phase, self.e_FRI_query_phase = get_FRI_soundness_error(
-            params, self.e_proximity_gap, theta, m
+        self.e_FRI_commit_phase = get_batched_FRI_commit_phase_error(
+            params.num_polys,
+            self.e_proximity_gap,
+            m,
+            params.D,
+            params.rho,
+            params.F,
+            params.FRI_rounds_n,
+            params.FRI_folding_factor,
         )
+        self.e_FRI_query_phase = get_FRI_query_phase_error(theta, params.num_queries, params.grinding_query_phase)
+        self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
 
         # Compute Guruswami–Sudan list size
         L_plus = self._get_list_size(alpha, theta)
@@ -79,5 +89,25 @@ class JohnsonBoundRegime(Regime):
         This is the error of the commit phase of FRI as computed by the correlated agreement theorem in BCIKS20.
         """
         return ((m + 0.5) ** 7) / (3 * (rho ** 1.5)) * (self.params.D ** 2) / self.params.F
+
+
+def get_batched_FRI_commit_phase_error(
+    num_polys: float,
+    e_proximity_gap: float,
+    m: int,
+    D: float,
+    rho: float,
+    F: float,
+    FRI_rounds_n: int,
+    FRI_folding_factor: int,
+) -> float:
+    """
+    See Theorem 8.3 of BCIKS20.
+    Also, seen in Theorem 2 of Ha22, and Theorem 1 of eSTARK paper.
+
+    Note: This function is used by both JBR and CBR.
+    """
+    last_term = (2 * m + 1) * (D + 1) * (FRI_rounds_n * FRI_folding_factor) / (math.sqrt(rho) * F)
+    return (num_polys - 0.5) * e_proximity_gap + last_term
 
 
