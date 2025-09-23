@@ -18,7 +18,7 @@ class EthStarkRegime(Regime):
     def identifier(self) -> str:
         return "ethstark"
 
-    def estimate(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
+    def compute_security(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
         # Store for helper access consistency with other regimes
         self.params = params
         rho = params.rho
@@ -37,7 +37,7 @@ class EthStarkRegime(Regime):
 
         self.e_final = self.e_FRI_final + self.e_PLONK + self.e_PLOOKUP
 
-        return self.gets_bits_of_security()
+        return self.gets_bits_of_security_from_error()
 
 
     def _get_FRI_query_phase_error(self) -> float:

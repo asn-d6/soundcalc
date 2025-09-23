@@ -10,14 +10,14 @@ from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_combined_html_report, build_markdown_report
 
 
-def estimate_security_for_zkevm(security_regimes: list, params) -> dict[str, dict]:
+def compute_security_for_zkevm(security_regimes: list, params) -> dict[str, dict]:
     """
-    Estimate security parameters for a single zkEVM across all security regimes.
+    Compute bits of security for a single zkEVM across all security regimes.
     """
     results: dict[str, dict] = {}
 
     for security_regime in security_regimes:
-        total_bits, details = security_regime.estimate(params)
+        total_bits, details = security_regime.compute_security(params)
         results[security_regime.identifier()] = {
             "total_bits": total_bits,
             "details": dict(details),
@@ -76,7 +76,7 @@ def main() -> None:
 
     # Analyze each zkEVM across all security regimes
     for zkevm_params in zkevms:
-        results = estimate_security_for_zkevm(security_regimes, zkevm_params)
+        results = compute_security_for_zkevm(security_regimes, zkevm_params)
         print_summary_for_zkevm(zkevm_params, security_regimes, results)
         sections.append((zkevm_params.name, results, zkevm_params))
 

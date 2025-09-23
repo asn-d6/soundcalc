@@ -44,10 +44,10 @@ class Regime:
     def identifier(self) -> str:
         raise NotImplementedError
 
-    def estimate(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
+    def compute_security(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
         raise NotImplementedError
 
-    def gets_bits_of_security(self) -> tuple[float, dict[str, Any]]:
+    def gets_bits_of_security_from_error(self) -> tuple[float, dict[str, Any]]:
         """Convert soundness error to bits of security"""
         # The errors below MUST be set at this point.
         # Whereas some other errors (e.g. e_proximity_gaps) might not be set in some regimes (e.g. ethSTARK)
