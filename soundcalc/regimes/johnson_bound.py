@@ -55,14 +55,19 @@ class JohnsonBoundRegime(Regime):
         """
         Compute alpha and theta. See Theorem 2 of Ha22.
         """
-        # ASN Why is this a good value for eta?
+        # ASN Is this a good value for eta?
 
         # eta denotes our distance from the JB
         eta = math.sqrt(rho) / (2 * m)
 
         # Given the above eta, we have:
-        #   alpha = sqrt(rho) * (1 + 1 / (2 * m))
-        alpha = 1 - math.sqrt(rho) - eta
+        #   alpha = sqrt(rho) * (1 + 1/(2m))
+        # as required by Theorem 2 of Ha22.
+        alpha = math.sqrt(rho) + eta
+
+        # And proximity parameter theta = 1 - sqrt(rho) - eta
+        #                               = 1 - sqrt(rho) * (1 + 1/ (2m) )
+        # as required by Theorem 2 of Ha22.
         theta = 1 - alpha
         return alpha, theta
 
