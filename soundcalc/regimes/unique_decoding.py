@@ -64,6 +64,8 @@ class UniqueDecodingRegime(Regime):
         Finish up the commit phase soundness error calculation for the UDR.
 
         This function computes the error by taking the union bound over multiple folding rounds, and the probability that the verifier samples bad randomness during FRI folding. See Paul's hackmd for more details.
+
+        XXX This function should ideally somehow be integrated into the fri.py module
         """
         fri_folding_errors = ((self.params.D + 1) * (self.params.FRI_folding_factor - 1) * self.params.FRI_rounds_n) / self.params.F
         return self.e_proximity_gap + fri_folding_errors

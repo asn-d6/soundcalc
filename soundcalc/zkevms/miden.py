@@ -10,37 +10,37 @@ class MidenPreset:
         """
         Populate a zkEVMConfig instance with zkVM parameters.
 
-        For Miden, we use the parameteers from the get_100_bits_security() test
-        in https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
+        For Miden, we use the parameters from the `RECURSIVE_96_BITS` configuration in:
+            https://github.com/0xMiden/miden-vm/blob/fde5256c7ea99112e7dc2677b4c57ad824f63dcb/air/src/options.rs#L47C15-L47C32
 
-        Parts of their proof system are described in the "STARK-based Signatures from the RPO Permutation" paper:
+        Parts of the Miden proof system are described in the "STARK-based Signatures from the RPO Permutation" paper:
             https://eprint.iacr.org/2024/1553
+
+        Thanks a lot to Al Kindi for the help!
         """
 
         # TODO Not sure if this is the actual parameters used in prod.
 
-        # blowup_factor = 4 => rho = 1/4
-        rho = 1 / 4.0
-        # trace_length = 2^18
-        trace_length = 1 << 18
+        # blowup_factor = 8 => rho = 1/8
+        rho = 1 / 8.0
 
-        # Miden does 20 bits of PoW grinding during the FRI query phase
-        grinding_query_phase = 20
+        grinding_query_phase = 16
 
-        FRI_folding_factor = 2
-        #  "let fri_remainder_max_degree = 127;"
+        num_queries = 27
+
+        FRI_folding_factor = 4
         FRI_early_stop_degree = 2**7
 
         field = GOLDILOCKS_2
 
+        # XXX That's actually inferred from the tests in
+        #    https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
+        # Might be inaccurate?
+        trace_length = 1 << 18
         # num_constraints =  100
         num_columns = 100
-
         # num_committed_polys = 2 ???
         num_polys = 2
-
-        # num_queries = 119
-        num_queries = 119  # num_queries
 
         # XXX ???
         max_combo = 2

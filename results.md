@@ -12,6 +12,7 @@ The cell values are the bits of security for each such component.
 
 **Parameters:**
 - Number of queries: 50
+- Grinding (bits): 0
 - Field: BabyBear⁴
 - Rate (ρ): 0.25
 - Trace length (H): 2^21
@@ -26,14 +27,15 @@ ethSTARK | 96 | — | 123 | 100 | 99 | — | — | 98 | **96**
 ## miden
 
 **Parameters:**
-- Number of queries: 119
+- Number of queries: 27
+- Grinding (bits): 16
 - Field: Goldilocks²
-- Rate (ρ): 0.25
+- Rate (ρ): 0.125
 - Trace length (H): 2^18
 
 Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
 --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
-UDR | 100 | 106 | 104 | **100** | 100 | 121 | 107 | 106 | 105
-JB | 57 | 58 | **57** | 133 | 57 | 116 | 102 | 106 | 105
-CBR | 83 | 100 | 97 | 226 | 97 | 97 | **83** | 106 | 105
-ethSTARK | 104 | — | 127 | 238 | 127 | — | — | 106 | **105**
+UDR | 38 | 105 | 102 | **38** | 38 | 121 | 107 | 106 | 105
+JB | 53 | 54 | **54** | 55 | 53 | 115 | 102 | 106 | 105
+CBR | 81 | 98 | 95 | 83 | 83 | 96 | **82** | 106 | 105
+ethSTARK | 96 | — | 127 | **97** | 96 | — | — | 106 | 105

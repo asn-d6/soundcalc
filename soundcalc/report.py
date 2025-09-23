@@ -152,6 +152,7 @@ def build_combined_html_report(
         html.append("<div style='margin-bottom: 16px;'>")
         html.append(f"<strong>Parameters:</strong><br>")
         html.append(f"• Number of queries: {zkevm_params.num_queries}<br>")
+        html.append(f"• Grinding (bits): {zkevm_params.grinding_query_phase}<br>")
         html.append(f"• Field: {field_name}<br>")
         html.append(f"• Rate (ρ): {zkevm_params.rho}<br>")
         html.append(f"• Trace length (H): 2<sup>{zkevm_params.h}</sup>")
@@ -260,6 +261,7 @@ def build_markdown_report(
         # Add parameter information
         lines.append(f"**Parameters:**")
         lines.append(f"- Number of queries: {zkevm_params.num_queries}")
+        lines.append(f"- Grinding (bits): {zkevm_params.grinding_query_phase}")
         # Get field name from the field extension degree and base field
         field_name = "Unknown"
         if hasattr(zkevm_params, 'field_extension_degree'):

@@ -13,6 +13,8 @@ class Risc0Preset:
         For RISC0, we use the ones in https://github.com/risc0/risc0/blob/main/risc0/zkp/src/docs/soundness.ipynb
         Also, see section 3.2 from the RISC0 proof system technical report:
            https://dev.risczero.com/proof-system-in-detail.pdf
+
+        Thanks a lot to Paul Gafni for helping out!
         """
         rho = 1 / 4.0
         trace_length = 1 << 21
