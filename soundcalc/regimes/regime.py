@@ -8,20 +8,19 @@ from ..zkevms.zkevm import zkEVMParams
 
 class Regime:
     """
-    A class representing a generic regime.
-    Soundcalc supports four regimes:
-    - ethSTARK,
-    - Unique Decoding,
-    - List Decoding up to Johnson Bound,
-    - List Decoding up to Capacity Bound.
-    Code for those regimes can be found in files across this directory.
+    A class representing a generic regime. Soundcalc supports four regimes: - ethSTARK, - Unique
+    Decoding, - List Decoding up to Johnson Bound, - List Decoding up to Capacity Bound. Code for
+    those regimes can be found in files across this directory.
 
-    This class carries around the soundness errors and computes the final bits of security
+    This class carries around the soundness errors and computes the final bits of security.
+
+    Each of the errors below represent soundness errors for different parts of the proof system.
+    They are tiny values (e.g. 2^-100) that represent the probability that the verifier, for every
+    cheating prover, accepts a false proof.
+    We convert it to "bits of security" by taking the negative log2 of the soundness error.
     """
 
-    # XXX document what a "soundness error" is
-
-    # This is the error from the proximity gaps paper
+    # This is the error from the proximity gaps (part of the FRI commit phase)
     e_proximity_gap: Optional[float] = None
     # This is the batched-FRI commit-phase soundness error
     # It is described in Theorem 2 of Ha22
@@ -31,14 +30,16 @@ class Regime:
     e_FRI_query_phase: Optional[float] = None
     # This is the final FRI soundness error
     e_FRI_final: Optional[float] = None
-    # This is the final proof system soundness error
-    e_final: Optional[float] = None
 
     # Soundness error for the rest of the proof system
     e_ALI: Optional[float] = None
     e_DEEP: Optional[float] = None
     e_PLONK: Optional[float] = None
     e_PLOOKUP: Optional[float] = None
+
+    # This is the final soundness error for the entire proof system
+    e_final: Optional[float] = None
+
 
     def identifier(self) -> str:
         raise NotImplementedError
