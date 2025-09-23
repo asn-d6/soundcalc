@@ -81,6 +81,5 @@ class UniqueDecodingRegime(Regime):
 
         # XXX (BW) 1: I think the FRI_rounds_n should not play a role here, as RO queries are domain-separated
         # XXX (BW) 2: why is it `D+1` and not `D`? In prox gaps paper the error in UDR is just domain size / field size
-        # XXX (BW) 3: are we now counting `e_proximity_gap` twice?
         fri_folding_errors = ((D + 1) * (FRI_folding_factor - 1) * FRI_rounds_n) / F
         return e_proximity_gap + fri_folding_errors
