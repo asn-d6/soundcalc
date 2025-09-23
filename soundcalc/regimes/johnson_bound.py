@@ -55,12 +55,14 @@ class JohnsonBoundRegime(Regime):
         """
         Compute alpha and theta. See Theorem 2 of Ha22.
         """
-        # ASN Confusing because all the FRI papers (e.g. Ha22, eSTARK, etc.) define alpha as shown below
-        # but looking at the function log_1_delta() from stir-whir-scripts,
-        # we have: `alpha = 1 - sqrt(rho) - eta` which feels more natural.
-        # BW: I think it is consistent if you set `theta = 1 - sqrt(rho) - eta`
-        # for `eta = sqrt(rho) / (2m)` and `theta = 1 - alpha`.
-        alpha = (1 + (1 / (2 * m))) * math.sqrt(rho)
+        # ASN Why is this a good value for eta?
+
+        # eta denotes our distance from the JB
+        eta = math.sqrt(rho) / (2 * m)
+
+        # Given the above eta, we have:
+        #   alpha = sqrt(rho) * (1 + 1 / (2 * m))
+        alpha = 1 - math.sqrt(rho) - eta
         theta = 1 - alpha
         return alpha, theta
 
