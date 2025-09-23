@@ -47,6 +47,7 @@ class UniqueDecodingRegime(Regime):
         """
         Compute theta for the unique decoding regime.
         """
+        # XXX (BW): I think theta = UDR = (1-rho)/2 is correct. Not sure what the alpha does.
         alpha = 1 - (1 - rho) / 2  # XXX factcheck whether the "1 - " is correct here
         theta = 1 - alpha
         return theta
@@ -58,6 +59,9 @@ class UniqueDecodingRegime(Regime):
         This is a direct application of Theorem 4.1 in the BCIKS20 paper: That is, what is the
         probability we sampled bad randomness when batching `self.num_polys` polynomials?
         """
+        # XXX (BW) if I read Theorem 4.1 correctly, then num_polys should only play a role if we do
+        # batching with randomness r^0, r^1, ..., r^(num_polys -1), but then we should point to
+        # Theorem 1.5. If randomness is r_1 = 1, r_2, ... , r_num_polys, it should not play a role.
         return (self.params.D * self.params.num_polys) / self.params.F
 
     def _get_FRI_commit_phase_error(self) -> float:
@@ -75,6 +79,8 @@ class UniqueDecodingRegime(Regime):
         FRI_rounds_n = self.params.FRI_rounds_n
         F = self.params.F
 
+        # XXX (BW) 1: I think the FRI_rounds_n should not play a role here, as RO queries are domain-separated
+        # XXX (BW) 2: why is it `D+1` and not `D`? In prox gaps paper the error in UDR is just domain size / field size
+        # XXX (BW) 3: are we now counting `e_proximity_gap` twice?
         fri_folding_errors = ((D + 1) * (FRI_folding_factor - 1) * FRI_rounds_n) / F
         return e_proximity_gap + fri_folding_errors
-
