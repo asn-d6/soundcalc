@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
-from soundcalc.regimes.ethstark import EthStarkRegime
+from soundcalc.regimes.ethstark import ToyProblemRegime
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.capacity_bound import CapacityBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
@@ -71,7 +71,7 @@ def main() -> None:
         UniqueDecodingRegime(),
         JohnsonBoundRegime(),
         CapacityBoundRegime(),
-        EthStarkRegime(),
+        ToyProblemRegime(),
     ]
 
     # Analyze each zkEVM across all security regimes

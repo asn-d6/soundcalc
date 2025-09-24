@@ -6,8 +6,8 @@ A universal soundness calculator across FRI-based zkEVM proof systems and securi
 
 It aims to answer questions like:
 - "What if RISC0 moves from Babybear^4 to Goldilocks^2?"
-- "What if OpenVM moves from the ethSTARK conjecture to the capacity conjecture?"
-- "What if ZisK moves from the ethSTARK conjecture to the provable unique-decoding regime?"
+- "What if OpenVM moves from the Toy Problem Regime (TPR) to the capacity conjecture?"
+- "What if ZisK moves from the Toy Problem Regime (TPR) to the provable unique-decoding regime?"
 
 ## Results
 
@@ -26,7 +26,7 @@ We support the following security regimes (see below for explanation of regimes)
 - Unique Decoding Regime (UDR)
 - Johnson Bound Regime (JBR)
 - Capacity Bound Regime (CBR)
-- ethSTARK Regime
+- Toy Problem Regime (TPR)
 
 ## Background on Security Regimes
 
@@ -44,13 +44,13 @@ Depending on the value of `θ`, the analysis falls into different regimes:
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
 All three regimes therefore apply to the *same zkEVM instance* without any change.
 
-The **ethSTARK regime** is different in a sense that no specific `θ` is used, but instead a conjecture on the concrete error bound is made.
+The **Toy Problem Regime (TPR)** is different in a sense that no specific `θ` is used, but instead a conjecture on the concrete error bound is made.
 
 ## Project Layout
 
 - `soundcalc/main.py`: Entry point
 - `soundcalc/zkevms/`: One file per supported zkEVM
-- `soundcalc/regimes/`: One file per regime (unique decoding, johnson bound, ethSTARK, ...)
+- `soundcalc/regimes/`: One file per regime (unique decoding, johnson bound, toy problem, ...)
 - `soundcalc/common/`: Common utilities used by the entire codebase
 - `soundcalc/report.py`: Markdown report generator
 - `TODO`: A file with TODO tasks!

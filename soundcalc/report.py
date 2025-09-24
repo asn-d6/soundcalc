@@ -99,13 +99,13 @@ def build_combined_html_report(
         "unique_decoding",  # UDR
         "johnson_bound",    # JB
         "capacity_bound",   # CBR
-        "ethstark",         # ethSTARK
+        "toy_problem",      # TPR
     ]
     regime_label = {
         "unique_decoding": "UDR",
         "johnson_bound": "JB",
         "capacity_bound": "CBR",
-        "ethstark": "ethSTARK",
+        "toy_problem": "TPR",
     }
 
     # Column order and mapping to detail keys
@@ -221,13 +221,13 @@ def build_markdown_report(
         "unique_decoding",
         "johnson_bound",
         "capacity_bound",
-        "ethstark",
+        "toy_problem",
     ]
     regime_label = {
         "unique_decoding": "UDR",
         "johnson_bound": "JB",
         "capacity_bound": "CBR",
-        "ethstark": "ethSTARK",
+        "toy_problem": "TPR",
     }
     columns = [
         ("Final", "e_final"),

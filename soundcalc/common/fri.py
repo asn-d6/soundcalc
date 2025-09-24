@@ -43,7 +43,7 @@ def get_FRI_query_phase_error(theta: float, num_queries: int, grinding_bits: int
 
     It includes `grinding_query_phase_bits` bits of grinding.
 
-    Note: This function is used by all regimes except from ethSTARK.
+    Note: This function is used by all regimes except the toy problem regime (TPR).
     """
     FRI_query_phase_error = (1 - theta) ** num_queries
 

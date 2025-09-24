@@ -8,9 +8,12 @@ from ..zkevms.zkevm import zkEVMParams
 
 class Regime:
     """
-    A class representing a generic regime. Soundcalc supports four regimes: - ethSTARK, - Unique
-    Decoding, - List Decoding up to Johnson Bound, - List Decoding up to Capacity Bound. Code for
-    those regimes can be found in files across this directory.
+    A class representing a generic regime. Soundcalc supports four regimes:
+    - Unique Decoding Regime (UDR)
+    - List Decoding up to Johnson Bound (JBR),
+    - List Decoding up to Capacity Bound (CBR).
+    - Toy Problem Regime (TPR),
+    Code for those regimes can be found in files across this directory.
 
     This class carries around the soundness errors and computes the final bits of security.
 
@@ -50,15 +53,15 @@ class Regime:
     def gets_bits_of_security_from_error(self) -> tuple[float, dict[str, Any]]:
         """Convert soundness error to bits of security"""
         # The errors below MUST be set at this point.
-        # Whereas some other errors (e.g. e_proximity_gaps) might not be set in some regimes (e.g. ethSTARK)
+        # Whereas some other errors (e.g. e_proximity_gaps) might not be set in some regimes (e.g. TPR)
         assert self.e_final
         assert self.e_FRI_commit_phase
         assert self.e_FRI_query_phase
         assert self.e_FRI_final
         assert self.e_PLONK
         assert self.e_PLOOKUP
-        # Assert for all other errors if we are not in the ethSTARK regime
-        if self.identifier() != "ethstark":
+        # Assert for all other errors if we are not in the toy problem regime
+        if self.identifier() != "toy_problem":
             assert self.e_proximity_gap
             assert self.e_ALI
             assert self.e_DEEP
