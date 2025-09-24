@@ -118,4 +118,5 @@ def get_batched_FRI_commit_phase_error(
     Note: This function is used by both JBR and CBR.
     """
     last_term = (2 * m + 1) * (D + 1) * (FRI_rounds_n * FRI_folding_factor) / (math.sqrt(rho) * F)
+    # XXX num_polys should not play a role here if we are doing linear batching
     return (num_polys - 0.5) * e_proximity_gap + last_term

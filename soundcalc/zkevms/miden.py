@@ -37,10 +37,9 @@ class MidenPreset:
         #    https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
         # Might be inaccurate?
         trace_length = 1 << 18
-        # num_constraints =  100
+        # XXX need to check the numbers below by running the prover
         num_columns = 100
-        # num_committed_polys = 2 ???
-        num_polys = 2
+        num_polys = 100
 
         # XXX ???
         max_combo = 2

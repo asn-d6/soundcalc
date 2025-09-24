@@ -82,5 +82,6 @@ class CapacityBoundRegime(Regime):
         Get the proximity gap error for the capacity bound regime.
         This is the second item of Conjecture 8.4 in the BCIKS20 paper.
         """
+        # XXX num_polys should not play a role here if we are doing linear batching
         return 1 / ((eta * rho) ** c_1) * self.params.num_polys * (self.params.D ** c_2) / self.params.F
 
