@@ -13,7 +13,8 @@ It aims to answer questions like:
 
 See the latest results in [`results.md`](results.md).
 
-You can run the calculator by doing `python3 -m soundcalc`
+You can run the calculator by doing `python3 -m soundcalc`.
+As a result, the calculator generates / updates [`results.md`](results.md).
 
 ## Supported systems
 
@@ -21,11 +22,29 @@ We currently support the following zkEVMs:
 - RISC0
 - Miden
 
-We support the following security regimes:
+We support the following security regimes (see below for explanation of regimes):
 - Unique Decoding Regime (UDR)
 - Johnson Bound Regime (JBR)
 - Capacity Bound Regime (CBR)
-- ethSTARK regime
+- ethSTARK Regime
+
+## Background on Security Regimes
+
+Consider a fixed set of parameters describing the prover and verifier of a FRI-based zkEVM.
+To evaluate the *concrete soundness level* of such a system, we introduce a parameter `θ` in the range `(0, 1)`.
+
+The soundness level is then determined as a function of `θ` and the zkEVM parameters (e.g., field size, code rate).
+Depending on the value of `θ`, the analysis falls into different regimes:
+
+- **UDR (Unique Decoding Regime):** `θ ≤ (1 - ρ)/2`, where `ρ` is the code rate.
+- **JBR (Johnson Bound Regime):** `(1 - ρ)/2 < θ < 1 - √ρ`.
+- **CBR (Capacity Bound Regime):** Roughly `θ < 1 - ρ`.
+  *Note: The analysis in this regime depends on unproven conjectures about Reed–Solomon codes.*
+
+Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
+All three regimes therefore apply to the *same zkEVM instance* without any change.
+
+The **ethSTARK regime** is different in a sense that no specific `θ` is used, but instead a conjecture on the concrete error bound is made.
 
 ## Project Layout
 
@@ -52,4 +71,3 @@ Based on papers:
 - [Ha22](https://eprint.iacr.org/2022/1216)
 - [eSTARK](https://eprint.iacr.org/2023/474)
 - [RISC0](https://dev.risczero.com/proof-system-in-detail.pdf)
-
