@@ -28,7 +28,7 @@ We support the following security regimes (see below for explanation of regimes)
 - Capacity Bound Regime (CBR)
 - ethSTARK Regime
 
-## Background on Regimes
+## Background on Security Regimes
 
 Consider a fixed set of parameters describing the prover and verifier of a FRI-based zkEVM.
 To evaluate the *concrete soundness level* of such a system, we introduce a parameter `θ` in the range `(0, 1)`.
@@ -38,13 +38,13 @@ Depending on the value of `θ`, the analysis falls into different regimes:
 
 - **UDR (Unique Decoding Regime):** `θ ≤ (1 - ρ)/2`, where `ρ` is the code rate.
 - **JBR (Johnson Bound Regime):** `(1 - ρ)/2 < θ < 1 - √ρ`.
-- **CBR (Capacity-Based Regime):** Roughly `θ < 1 - ρ`.
+- **CBR (Capacity Bound Regime):** Roughly `θ < 1 - ρ`.
   *Note: The analysis in this regime depends on unproven conjectures about Reed–Solomon codes.*
 
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
 All three regimes therefore apply to the *same zkEVM instance* without any change.
 
-The ethSTARK regime is different in a sense that no specific `θ` is used, but instead a conjecture on the concrete error bound is made.
+The **ethSTARK regime** is different in a sense that no specific `θ` is used, but instead a conjecture on the concrete error bound is made.
 
 ## Project Layout
 

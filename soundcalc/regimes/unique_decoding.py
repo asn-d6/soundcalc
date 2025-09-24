@@ -45,11 +45,9 @@ class UniqueDecodingRegime(Regime):
 
     def _get_theta(self, rho: float) -> float:
         """
-        Compute theta for the unique decoding regime.
+        Return theta for the unique decoding regime.
         """
-        # XXX (BW): I think theta = UDR = (1-rho)/2 is correct. Not sure what the alpha does.
-        alpha = 1 - (1 - rho) / 2  # XXX factcheck whether the "1 - " is correct here
-        theta = 1 - alpha
+        theta = (1 - rho) / 2
         return theta
 
     def _get_proximity_gap_error(self) -> float:
@@ -73,13 +71,11 @@ class UniqueDecodingRegime(Regime):
 
         Note: This function is used only in the UDR regime.
         """
-        e_proximity_gap = self.e_proximity_gap
         D = self.params.D
         FRI_folding_factor = self.params.FRI_folding_factor
         FRI_rounds_n = self.params.FRI_rounds_n
         F = self.params.F
 
         # XXX (BW) 1: I think the FRI_rounds_n should not play a role here, as RO queries are domain-separated
-        # XXX (BW) 2: why is it `D+1` and not `D`? In prox gaps paper the error in UDR is just domain size / field size
-        fri_folding_errors = ((D + 1) * (FRI_folding_factor - 1) * FRI_rounds_n) / F
-        return e_proximity_gap + fri_folding_errors
+        fri_folding_errors = (D * (FRI_folding_factor - 1) * FRI_rounds_n) / F
+        return self.e_proximity_gap + fri_folding_errors
