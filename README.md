@@ -53,7 +53,6 @@ The **Toy Problem Regime (TPR)** is different in a sense that no specific `θ` i
 - `soundcalc/regimes/`: One file per regime (unique decoding, johnson bound, toy problem, ...)
 - `soundcalc/common/`: Common utilities used by the entire codebase
 - `soundcalc/report.py`: Markdown report generator
-- `TODO`: A file with TODO tasks!
 
 ## Related work
 

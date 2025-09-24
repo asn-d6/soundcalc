@@ -1,4 +1,0 @@
-- Implement proof size computation (see how [Giacomo does it](https://github.com/WizardOfMenlo/stir-whir-scripts/blob/main/src/protocol/proof_size.rs) in stir-whir-scripts)
-- Implement 1.5 JB for RS
-- Resolve XXXs and ASNs around the codebase
-- Longer-term: Consider re-writing it in Rust so that it [extracts parameters directly](https://github.com/risc0/risc0/blob/release-2.0/risc0/zkp/src/prove/soundness.rs#L43) from the zkEVMs
