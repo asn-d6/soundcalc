@@ -29,19 +29,19 @@ class MidenPreset:
         num_queries = 27
 
         FRI_folding_factor = 4
-        FRI_early_stop_degree = 2**7
+        FRI_early_stop_degree = 2**7 #DK: Their code uses 127 but we use a power of 2 for simplicity
 
         field = GOLDILOCKS_2
 
         # XXX That's actually inferred from the tests in
         #    https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs
         # Might be inaccurate?
-        trace_length = 1 << 18
+        trace_length = 1 << 18    #note that this is smaller than for other VMs, thus the security is higher for the same settings
         # XXX need to check the numbers below by running the prover
         num_columns = 100
         num_polys = 100
 
-        # XXX ???
+        # XXX ???  TODO: ask the main Miden channel
         max_combo = 2
 
         cfg = zkEVMConfig(

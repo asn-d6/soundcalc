@@ -36,7 +36,7 @@ class UniqueDecodingRegime(Regime):
         # For unique decoding, list size is naturally 1
         L_plus = 1
 
-        # XXX might still need to do something with m_plus or rho_plus. See the hackmd.
+        # XXX might still need to do something with m_plus or rho_plus. See the https://hackmd.io/@pgaf/HkKs_1ytT.
         (self.e_ALI, self.e_DEEP, self.e_PLONK, self.e_PLOOKUP) = get_proof_system_errors(L_plus, params)
 
         self.e_final = self.e_FRI_final + self.e_ALI + self.e_DEEP + self.e_PLONK + self.e_PLOOKUP

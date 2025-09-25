@@ -12,7 +12,8 @@ import math
 
 class JohnsonBoundRegime(Regime):
     """
-    List decoding up-to-Johnson bound regime (JBR)
+    List decoding up-to-Johnson bound regime (JBR):
+    The proximity parameter θ is in the range `(1 - ρ)/2 < θ < 1 - √ρ` where ρ is the rate
 
     This is Regime 2 from the RISC0 Python calculator
     """
@@ -23,7 +24,7 @@ class JohnsonBoundRegime(Regime):
     def compute_security(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
         self.params = params
         rho = params.rho
-        m = get_johnson_parameter_m()
+        m = get_johnson_parameter_m()  # TODO DK: it is not clear if this is the right m to use. To investigate.
 
         alpha, theta = self._get_alpha_and_theta(rho, m)
 
