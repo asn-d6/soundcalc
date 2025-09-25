@@ -7,6 +7,7 @@ The cell values are the bits of security for each such component.
 ## zkEVMs
 - [risc0](#risc0)
 - [miden](#miden)
+- [ZisK](#zisk)
 
 ## risc0
 
@@ -39,3 +40,19 @@ UDR | 38 | 100 | 100 | **38** | 38 | 121 | 107 | 106 | 105
 JB | 48 | 54 | **48** | 55 | 48 | 115 | 102 | 106 | 105
 CBR | 81 | 93 | 86 | 83 | 83 | 96 | **82** | 106 | 105
 TPR | 96 | — | 127 | **97** | 96 | — | — | 106 | 105
+
+## ZisK
+
+**Parameters:**
+- Number of queries: 128.0
+- Grinding (bits): 0
+- Field: Unknown
+- Rate (ρ): 0.5
+- Trace length (H): 2^22
+
+Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
+--- | --- | --- | --- | --- | --- | --- | --- | --- | ---
+UDR | 53 | 162 | 161 | **53** | 53 | 185 | 167 | 166 | 164
+JB | 58 | 117 | 111 | **58** | 58 | 181 | 163 | 166 | 164
+CBR | 110 | 157 | 151 | **110** | 110 | 158 | 140 | 166 | 164
+TPR | 127 | — | 191 | **128** | 128 | — | — | 166 | 164
