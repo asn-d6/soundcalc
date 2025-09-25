@@ -38,7 +38,7 @@ Depending on the value of `θ`, the analysis falls into different regimes:
 
 - **UDR (Unique Decoding Regime):** `θ ≤ (1 - ρ)/2`, where `ρ` is the code rate.
 - **JBR (Johnson Bound Regime):** $(1 - \rho)/2 < \theta < 1 - \sqrt{\rho}$.
-- **CBR (Capacity Bound Regime):** Roughly `θ < 1 - ρ`.
+- **CBR (Capacity Bound Regime):** Roughly $\theta < 1 - \rho$.
   *Note: The analysis in this regime depends on unproven conjectures about Reed–Solomon codes.*
 
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
