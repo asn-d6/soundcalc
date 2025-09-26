@@ -36,7 +36,7 @@ class UniqueDecodingRegime(Regime):
         # For unique decoding, list size is naturally 1
         L_plus = 1
 
-        # XXX might still need to do something with m_plus or rho_plus. See the hackmd.
+        # XXX might still need to do something with m_plus or rho_plus. See the https://hackmd.io/@pgaf/HkKs_1ytT.
         (self.e_ALI, self.e_DEEP, self.e_PLONK, self.e_PLOOKUP) = get_proof_system_errors(L_plus, params)
 
         self.e_final = self.e_FRI_final + self.e_ALI + self.e_DEEP + self.e_PLONK + self.e_PLOOKUP
@@ -45,7 +45,7 @@ class UniqueDecodingRegime(Regime):
 
     def _get_theta(self, rho: float) -> float:
         """
-        Return theta for the unique decoding regime.
+        Return the optimal theta [Ha22] for the unique decoding regime.
         """
         theta = (1 - rho) / 2
         return theta
@@ -92,6 +92,6 @@ class UniqueDecodingRegime(Regime):
         FRI_rounds_n = self.params.FRI_rounds_n
         F = self.params.F
 
-        # XXX (BW) 1: I think the FRI_rounds_n should not play a role here, as RO queries are domain-separated
+        # XXX TODO (BW) 1: I think the FRI_rounds_n should not play a role here, as RO queries are domain-separated
         fri_folding_errors = (D * (FRI_folding_factor - 1) * FRI_rounds_n) / F
         return self.e_proximity_gap + fri_folding_errors

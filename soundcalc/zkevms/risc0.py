@@ -10,7 +10,8 @@ class Risc0Preset:
         """
         Populate a zkEVMConfig instance with zkVM parameters.
 
-        For RISC0, we use the ones in https://github.com/risc0/risc0/blob/main/risc0/zkp/src/docs/soundness.ipynb
+        For RISC0, we use the ones in https://github.com/risc0/risc0/blob/ebc18c770c4dd5a8e8dfdca1297edb181848405f/risc0/zkp/src/docs/soundness.ipynb
+        (dated September 2024)
         Also, see section 3.2 from the RISC0 proof system technical report:
            https://dev.risczero.com/proof-system-in-detail.pdf
 

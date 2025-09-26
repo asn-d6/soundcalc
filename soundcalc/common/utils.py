@@ -4,7 +4,8 @@ from ..zkevms.zkevm import zkEVMParams
 
 def get_rho_plus(H: int, D: float, max_combo: int) -> float:
     """Compute rho+. See page 16 of Ha22"""
-    # XXX Should this be (H + 2) / D?
+    # XXX Should this be (H + 2) / D? This part is cryptic in [Ha22]
+    # TODO Figure out
     return (H + max_combo) / D
 
 def get_proof_system_errors(L_plus: float, params: zkEVMParams):
@@ -13,6 +14,8 @@ def get_proof_system_errors(L_plus: float, params: zkEVMParams):
 
     Returns a tuple: (e_ALI, e_DEEP, e_PLONK, e_PLOOKUP)
     """
+
+    # TODO Check that it holds for all regimes
 
     # XXX These proof system errors are actually quite RISC0 specific.
     # See Section 3.4 from the RISC0 technical report.
