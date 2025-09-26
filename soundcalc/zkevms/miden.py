@@ -21,6 +21,8 @@ class MidenPreset:
 
         # TODO Not sure if this is the actual parameters used in prod.
 
+        hash_size_bits = 256 # TODO: check if that is actually true
+
         # blowup_factor = 8 => rho = 1/8
         rho = 1 / 8.0
         AIR_max_degree = 9 # They bound it as 1/rho+1  https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L164
@@ -51,6 +53,7 @@ class MidenPreset:
 
         cfg = zkEVMConfig(
             name="miden",
+            hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
             field=field,

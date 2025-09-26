@@ -17,6 +17,9 @@ class Risc0Preset:
 
         Thanks a lot to Paul Gafni for helping out!
         """
+
+        hash_size_bits = 256 # TODO: check if that is actually true
+
         rho = 1 / 4.0
         trace_length = 1 << 21
 
@@ -40,6 +43,7 @@ class Risc0Preset:
 
         cfg = zkEVMConfig(
             name="risc0",
+            hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
             field=field,

@@ -5,8 +5,8 @@ from typing import Protocol, Mapping, Any
 
 from math import log2
 from ..common.fields import FieldParams
-from ..common.fri import get_num_FRI_folding_rounds
-
+from ..common.fri import get_num_FRI_folding_rounds, get_FRI_proof_size_bits
+from ..common.fields import field_element_size_bits
 
 
 @dataclass(frozen=True)
@@ -17,6 +17,10 @@ class zkEVMConfig:
 
     # Name of the proof system
     name: str
+
+    # The output length of the hash function that is used in bits
+    # Note: this concerns the hash function used for Merkle trees
+    hash_size_bits: int
 
     # The code rate ρ
     rho: float
@@ -61,6 +65,7 @@ class zkEVMParams:
         """
         # Copy the parameters over (also see docs just above)
         self.name = zkevm_cfg.name
+        self.hash_size_bits = zkevm_cfg.hash_size_bits
         self.rho = zkevm_cfg.rho
         self.trace_length = zkevm_cfg.trace_length
         self.num_columns = zkevm_cfg.num_columns
@@ -97,4 +102,18 @@ class zkEVMParams:
             field_extension_degree=int(self.field_extension_degree),
             folding_factor=int(self.FRI_folding_factor),
             fri_early_stop_degree=int(self.FRI_early_stop_degree),
+        )
+
+        # Compute the proof size
+        # XXX (BW): note that it is not clear that this is the
+        # proof size for every zkEVM we can think of
+        self.proof_size_bits = get_FRI_proof_size_bits(
+            hash_size_bits=self.hash_size_bits,
+            field_size_bits=field_element_size_bits(zkevm_cfg.field),
+            num_functions=self.num_queries,
+            num_queries=self.num_queries,
+            witness_size=int(self.D),
+            field_extension_degree=int(self.field_extension_degree),
+            early_stop_degree=int(self.FRI_early_stop_degree),
+            folding_factor=int(self.FRI_folding_factor),
         )

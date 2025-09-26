@@ -51,3 +51,64 @@ def get_FRI_query_phase_error(theta: float, num_queries: int, grinding_bits: int
     FRI_query_phase_error *= 2 ** (-grinding_bits)
 
     return FRI_query_phase_error
+
+def get_size_of_merkle_path_bits(num_leafs: int, tuple_size: int, element_size_bits: int, hash_size_bits: int) -> int:
+    '''
+    Compute the size of a Merkle path in bits.
+
+    We assume a Merkle tree that represents num_leafs tuples of elements
+    where each element has size element_size_bits and one tuple contains tuple_size
+    many elements. Each leaf of the tree contains one such tuple.
+
+    Note: the result contains both the leaf and the Merkle path.
+    '''
+    leaf_size = tuple_size * element_size_bits
+    sibling = tuple_size * element_size_bits
+    tree_depth = math.ceil(math.log2(num_leafs))
+    co_path = (tree_depth - 1) * hash_size_bits
+    return leaf_size + sibling + co_path
+
+def get_FRI_proof_size_bits(
+        hash_size_bits: int,
+        field_size_bits: int,
+        num_functions: int,
+        num_queries: int,
+        witness_size: int,
+        field_extension_degree: int,
+        early_stop_degree: int,
+        folding_factor: int,
+) -> int:
+    """
+    Compute the proof size of a (BCS-transformed) FRI interaction in bits.
+    """
+
+    # TODO: the following things are not yet considered.
+    #   - is there really a Merkle root (and paths) for the final round? Or just the codeword itself?
+
+    # The FRI proof contains two parts: Merkle roots, and one "openings" per query,
+    # where an "opening" is a Merkle path for each folding layer.
+    #
+    # We use the same loop as in `get_num_FRI_folding_rounds`, and count the size that
+    # this layer contributes, which includes the root and all Merkle paths.
+
+    size_bits = 0
+
+    # Initial Round: one root and one path per query
+    # We assume that for the initial functions, there is only one Merkle root, and
+    # each leaf i for that root contains symbols i for all initial functions.
+    n = int(witness_size)
+    num_leafs = n // int(folding_factor)
+    tuple_size = num_functions
+    size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits(num_leafs, tuple_size, field_size_bits, hash_size_bits)
+
+    # Folding rounds
+    # We assume that "siblings" for the following layers are grouped together
+    # in one leaf. This is natural as they always need to be opened together.
+    while n // int(field_extension_degree) > int(early_stop_degree):
+        n //= int(folding_factor)
+        num_leafs = n // int(folding_factor)
+        tuple_size = folding_factor
+        # one root and one path per query
+        size_bits += hash_size_bits + num_queries * get_size_of_merkle_path_bits(num_leafs, tuple_size, field_size_bits, hash_size_bits)
+
+    return size_bits

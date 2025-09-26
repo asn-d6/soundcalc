@@ -18,6 +18,8 @@ The cell values are the bits of security for each such component.
 - Trace length (H): 2^21
 - Batching: Powers
 
+<b>Proof Size Estimate:</b> 250.83984375 KiB, where 1 KiB = 2^10 Byte
+
 Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
 --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
 UDR | 33 | 92 | 92 | **33** | 33 | 115 | 100 | 98 | 96
@@ -34,6 +36,8 @@ TPR | 96 | — | 123 | 100 | 99 | — | — | 98 | **96**
 - Rate (ρ): 0.125
 - Trace length (H): 2^18
 - Batching: Powers
+
+<b>Proof Size Estimate:</b> 120.90625 KiB, where 1 KiB = 2^10 Byte
 
 Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
 --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
