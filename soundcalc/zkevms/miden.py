@@ -29,7 +29,8 @@ class MidenPreset:
         num_queries = 27
 
         FRI_folding_factor = 4
-        FRI_early_stop_degree = 2**7 #DK: Their code uses 127 but we use a power of 2 for simplicity
+        # The Miden code uses 127 (likely for internal reasons) but we use a power of 2
+        FRI_early_stop_degree = 2**7
 
         field = GOLDILOCKS_2
 
