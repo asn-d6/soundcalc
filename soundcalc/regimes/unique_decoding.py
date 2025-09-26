@@ -57,10 +57,26 @@ class UniqueDecodingRegime(Regime):
         This is a direct application of Theorem 4.1 in the BCIKS20 paper: That is, what is the
         probability we sampled bad randomness when batching `self.num_polys` polynomials?
         """
-        # XXX (BW) if I read Theorem 4.1 correctly, then num_polys should only play a role if we do
-        # batching with randomness r^0, r^1, ..., r^(num_polys -1), but then we should point to
-        # Theorem 1.5. If randomness is r_1 = 1, r_2, ... , r_num_polys, it should not play a role.
-        return (self.params.D * self.params.num_polys) / self.params.F
+
+        # Note: the errors for correlated agreement in the following two cases differ,
+        # which is related to the batching method:
+        #
+        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_polys-1}
+        # This is what is called batching over parameterized curves in BCIKS20.
+        # Here, the error depends on num_polys (called l in BCIKS20), and we find
+        # the error in Theorem 6.1 and Theorem 1.5.
+        #
+        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_polys-1}
+        # This is what is called batching over affine spaces in BCIKS20.
+        # Here, the error does not depend on num_polys (called l in BCIKS20), and we find
+        # the error in Theorem 1.6.
+        #
+        # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
+
+        error = self.params.D / self.params.F
+        if self.params.power_batching:
+            error *= self.params.num_polys
+        return error
 
     def _get_FRI_commit_phase_error(self) -> float:
         """

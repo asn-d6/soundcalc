@@ -33,6 +33,10 @@ class Risc0Preset:
         FRI_folding_factor = 16
         FRI_early_stop_degree = 2**8
 
+        # according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
+        # Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+        power_batching = True
+
         cfg = zkEVMConfig(
             name="risc0",
             rho=rho,
@@ -40,6 +44,7 @@ class Risc0Preset:
             field=field,
             num_columns=C,
             num_polys=L,
+            power_batching=power_batching,
             num_queries=s,
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
@@ -48,5 +53,3 @@ class Risc0Preset:
             AIR_max_degree=AIR_max_degree,
         )
         return zkEVMParams(cfg)
-
-

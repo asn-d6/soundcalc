@@ -45,6 +45,9 @@ class MidenPreset:
         # XXX ???
         max_combo = 2
 
+        # The RECURSIVE_96_BITS config uses algebraic batching
+        power_batching = True
+
         cfg = zkEVMConfig(
             name="miden",
             rho=rho,
@@ -52,6 +55,7 @@ class MidenPreset:
             field=field,
             num_columns=num_columns,
             num_polys=num_polys,
+            power_batching=power_batching,
             num_queries=num_queries,
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
@@ -60,5 +64,3 @@ class MidenPreset:
             AIR_max_degree=AIR_max_degree,
         )
         return zkEVMParams(cfg)
-
-

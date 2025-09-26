@@ -29,6 +29,10 @@ class zkEVMConfig:
     # Number of polynomials appearing in the batched-FRI
     # This can be greater than `num_columns`: some zkEVMs have to use "segment polynomials" (aka "composition polynomials")
     num_polys: int
+    # Boolean flag to indicate if batched-FRI is implemented using coefficients
+    # r^0, r^1, ... r^{num_polys-1} (power_batching = True) or
+    # 1, r_1, r_2, ... r_{num_polys - 1} (power_batching = False)
+    power_batching: bool
     # Number of FRI queries
     num_queries: int
     # Maximum constraint degree
@@ -61,6 +65,7 @@ class zkEVMParams:
         self.trace_length = zkevm_cfg.trace_length
         self.num_columns = zkevm_cfg.num_columns
         self.num_polys = zkevm_cfg.num_polys
+        self.power_batching = zkevm_cfg.power_batching
         self.num_queries = zkevm_cfg.num_queries
         self.max_combo = zkevm_cfg.max_combo
         self.FRI_folding_factor = zkevm_cfg.FRI_folding_factor
@@ -93,4 +98,3 @@ class zkEVMParams:
             folding_factor=int(self.FRI_folding_factor),
             fri_early_stop_degree=int(self.FRI_early_stop_degree),
         )
-

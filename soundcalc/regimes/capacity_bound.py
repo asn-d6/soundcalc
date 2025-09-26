@@ -80,8 +80,26 @@ class CapacityBoundRegime(Regime):
     def _get_proximity_gap_error(self, c_1: float, c_2: float, eta: float, rho: float) -> float:
         """
         Get the proximity gap error for the capacity bound regime.
-        This is the second item of Conjecture 8.4 in the BCIKS20 paper.
+        This is based on a conjecture in the BCIKS20 paper.
         """
-        # XXX num_polys should not play a role here if we are doing linear batching
-        return 1 / ((eta * rho) ** c_1) * self.params.num_polys * (self.params.D ** c_2) / self.params.F
 
+        # Note: the errors for correlated agreement in the following two cases differ,
+        # which is related to the batching method:
+        #
+        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_polys-1}
+        # This is what is called batching over parameterized curves in BCIKS20.
+        # Here, the error depends on num_polys (called l in BCIKS20), and we find
+        # the error in Conjecture 8.4, second item.
+        #
+        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_polys-1}
+        # This is what is called batching over affine spaces in BCIKS20.
+        # Here, the error does not depend on num_polys (called l in BCIKS20), and we find
+        # the error in Conjecture 8.4, first item.
+        #
+        # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
+        term_one =  1 / ((eta * rho) ** c_1)
+        term_two =  (self.params.D ** c_2) / self.params.F
+        error = term_one * term_two
+        if self.params.power_batching:
+            error *= self.params.num_polys ** c_2
+        return error
