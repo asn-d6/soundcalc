@@ -11,6 +11,7 @@ from ..common.utils import get_proof_system_errors
 class ToyProblemRegime(Regime):
     """
     Toy Problem Regime (TPR), also known as "ethSTARK conjecture"
+    It uses the simplest and probably the most optimistic soundness analysis.
 
     This is Regime 1 from the RISC0 Python calculator
     """
@@ -21,7 +22,8 @@ class ToyProblemRegime(Regime):
     def compute_security(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
         # Store for helper access consistency with other regimes
         self.params = params
-        rho = params.rho
+        # rho = params.rho   # Not used in TPR
+
 
         # FRI errors under the toy problem regime
         # see "Toy problem security" in §5.9.1 of the ethSTARK paper
