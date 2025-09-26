@@ -15,6 +15,8 @@ def get_proof_system_errors(L_plus: float, params: zkEVMParams):
     Returns a tuple: (e_ALI, e_DEEP, e_PLONK, e_PLOOKUP)
     """
 
+    # TODO Check that it holds for all regimes
+
     # XXX These proof system errors are actually quite RISC0 specific.
     # See Section 3.4 from the RISC0 technical report.
     # We might want to generalize this further for other zkEVMs.

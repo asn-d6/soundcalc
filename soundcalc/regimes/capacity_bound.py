@@ -14,7 +14,8 @@ class CapacityBoundRegime(Regime):
     List decoding up to Capacity Bound Regime (CBR)
 
     This is Regime 3 from the RISC0 python calculator.
-    This is a conjectured regime.
+    This regime assumes the proximity conjecture with parameters c_1,c_2 (set below) + the list size
+    conjecture parameter c_3 (also set).
     """
 
     def identifier(self) -> str:
@@ -24,15 +25,20 @@ class CapacityBoundRegime(Regime):
         self.params = params
         rho = params.rho
 
-        # Default conjecture parameters
+        # Default conjecture parameters, which are widely used in literature. A more conservative
+        # choice would be to set them to 2.0
         c_1 = 1.0
         c_2 = 1.0
         c_3 = 1.0  # controls the list size
 
         # This is called epsilon in the RISC0 calculator, but it's usually eta elsewhere
         # It denotes how close we are to the capacity bound
+        # TODO DK: figure out if we can optimize this parameter
         eta = 0.05
 
+        # Here we follow the RISC0 calculator and use the same estimate for m as in JBR, but it may
+        # be suboptimal for CBR
+        # TODO DK: figure out if we can optimize this parameter
         m = get_johnson_parameter_m()
 
         # Compute theta for this regime
@@ -72,6 +78,9 @@ class CapacityBoundRegime(Regime):
         # ASN This computation is again kinda different between Ha22 and STIR conjecture.
         # Clarify and document why we are using this one.
         r_plus = get_rho_plus(self.params.trace_length, self.params.D, self.params.max_combo)
+        # we assume that the theta has been chosen that this assert always holds
+        # however, we might want to guarantee that
+        # TODO DK: figure out how to guarantee that
         assert theta < 1 - r_plus
         eta_plus = 1 - r_plus - theta
 
