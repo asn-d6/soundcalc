@@ -67,6 +67,6 @@ More inspiration:
 Based on papers (links point to specific versions where possible):
 - [BCIKS20](https://eprint.iacr.org/archive/2020/654/20210703:203025)
 - [ethSTARK](https://eprint.iacr.org/archive/2021/582/20250608:155119)
-- [Ha22](https://eprint.iacr.org/archive/2022/1216/20250220:085409)
+- [Ha22](https://eprint.iacr.org/archive/2022/1216/20241217:162441)
 - [eSTARK](https://eprint.iacr.org/archive/2023/474/20230331:165019)
 - [RISC0](https://dev.risczero.com/proof-system-in-detail.pdf)
