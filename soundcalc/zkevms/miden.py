@@ -23,7 +23,7 @@ class MidenPreset:
 
         # blowup_factor = 8 => rho = 1/8
         rho = 1 / 8.0
-        AIR_degree = 9 # They bound it as 1/rho+1  https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L164
+        AIR_max_degree = 9 # They bound it as 1/rho+1  https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L164
 
         grinding_query_phase = 16
 
@@ -57,6 +57,7 @@ class MidenPreset:
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,
             grinding_query_phase=grinding_query_phase,
+            AIR_max_degree=AIR_max_degree,
         )
         return zkEVMParams(cfg)
 

@@ -32,7 +32,7 @@ class zkEVMConfig:
     # Number of FRI queries
     num_queries: int
     # Maximum constraint degree
-    AIR_degree: int
+    AIR_max_degree: int
 
     # FRI folding factor (arity of folding per round)
     FRI_folding_factor: int
@@ -66,7 +66,7 @@ class zkEVMParams:
         self.FRI_folding_factor = zkevm_cfg.FRI_folding_factor
         self.FRI_early_stop_degree = zkevm_cfg.FRI_early_stop_degree
         self.grinding_query_phase = zkevm_cfg.grinding_query_phase
-        self.AIR_degree = zkevm_cfg.AIR_degree
+        self.AIR_max_degree = zkevm_cfg.AIR_max_degree
 
         # Number of columns should be less or equal to the final number of polynomials in batched-FRI
         assert self.num_columns <= self.num_polys

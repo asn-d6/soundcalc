@@ -22,7 +22,7 @@ def get_proof_system_errors(L_plus: float, params: zkEVMParams):
     e_ALI = L_plus * params.num_columns / params.F
     e_DEEP = (
         L_plus
-        * (params.AIR_degree * (params.trace_length + params.max_combo - 1) + (params.trace_length - 1))
+        * (params.AIR_max_degree * (params.trace_length + params.max_combo - 1) + (params.trace_length - 1))
         / (params.F - params.trace_length - params.D)
     )
 
