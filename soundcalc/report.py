@@ -225,7 +225,7 @@ def build_markdown_report(
     ]
     regime_label = {
         "unique_decoding": "UDR",
-        "johnson_bound": "JB",
+        "johnson_bound": "JBR",
         "capacity_bound": "CBR",
         "toy_problem": "TPR",
     }
