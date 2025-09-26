@@ -28,6 +28,7 @@ class Risc0Preset:
         L = C + 4
         s = 50
         max_combo = 9
+        AIR_degree = 4 #They use 5 but in the DEEP-ALI error they use (d-1) so we put 4 here.
 
         FRI_folding_factor = 16
         FRI_early_stop_degree = 2**8
@@ -44,6 +45,7 @@ class Risc0Preset:
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,
             grinding_query_phase=0,
+            AIR_degree=AIR_degree,
         )
         return zkEVMParams(cfg)
 

@@ -23,6 +23,7 @@ class MidenPreset:
 
         # blowup_factor = 8 => rho = 1/8
         rho = 1 / 8.0
+        AIR_degree = 9 # They bound it as 1/rho+1  https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs#L164
 
         grinding_query_phase = 16
 
