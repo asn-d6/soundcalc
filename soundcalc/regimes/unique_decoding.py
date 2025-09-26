@@ -73,7 +73,7 @@ class UniqueDecodingRegime(Regime):
         #
         # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
 
-        error = self.params.num_polys / self.params.F
+        error = self.params.D / self.params.F
         if self.params.power_batching:
             error *= self.params.num_polys
         return error
