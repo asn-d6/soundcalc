@@ -96,9 +96,27 @@ class JohnsonBoundRegime(Regime):
         """
         Get the proximity gap error for the Johnson bound regime.
         This is the error of the commit phase of FRI as computed by the correlated agreement theorem in BCIKS20.
-        Concretely, Theorem 5.1 in BCIKS20 (eprint) contains this bound.
         """
-        return ((m + 0.5) ** 7) / (3 * (rho ** 1.5)) * (self.params.D ** 2) / self.params.F
+
+        # Note: the errors for correlated agreement in the following two cases differ,
+        # which is related to the batching method:
+        #
+        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_polys-1}
+        # This is what is called batching over parameterized curves in BCIKS20.
+        # Here, the error depends on num_polys (called l in BCIKS20), and we find
+        # the error in Theorem 6.2.
+        #
+        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_polys-1}
+        # This is what is called batching over affine spaces in BCIKS20.
+        # Here, the error does not depend on num_polys (called l in BCIKS20), and we find
+        # the error in Theorem 1.6.
+        #
+        # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
+
+        error = ((m + 0.5) ** 7) / (3 * (rho ** 1.5)) * (self.params.D ** 2) / self.params.F
+        if self.params.power_batching:
+            error *= self.params.num_polys
+        return error
 
 
 def get_batched_FRI_commit_phase_error(
