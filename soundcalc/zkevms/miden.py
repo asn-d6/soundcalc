@@ -45,11 +45,8 @@ class MidenPreset:
         # XXX ???
         max_combo = 2
 
-        # According to https://eprint.iacr.org/2024/1553.pdf, Section 4.3
-        # they use affine batching, i.e., independent coefficients 1, r_1, r_2, ..
-        # XXX (BW) Could also be that they do a mix? Not sure what
-        # "BatchingMethod" means in the RECURSIVE_96_BITS config linked above
-        power_batching = False
+        # The RECURSIVE_96_BITS config uses algebraic batching
+        power_batching = True
 
         cfg = zkEVMConfig(
             name="miden",
