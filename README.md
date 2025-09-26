@@ -36,7 +36,7 @@ To evaluate the *concrete soundness level* of such a system, we introduce a para
 The soundness level is then determined as a function of `θ` and the zkEVM parameters (e.g., field size, code rate).
 Depending on the value of `θ`, the analysis falls into different regimes:
 
-- **UDR (Unique Decoding Regime):** `θ ≤ (1 - ρ)/2`, where `ρ` is the code rate.
+- **UDR (Unique Decoding Regime):** $\theta  \leq  (1 - \rho)/2$, where $\rho$ is the code rate.
 - **JBR (Johnson Bound Regime):** $(1 - \rho)/2 < \theta < 1 - \sqrt{\rho}$.
 - **CBR (Capacity Bound Regime):** Roughly $\theta < 1 - \rho$.
   *Note: The analysis in this regime depends on unproven conjectures about Reed–Solomon codes.*
