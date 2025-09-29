@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
+from soundcalc.zkevms.zisk import ZiskPreset
 from soundcalc.regimes.ethstark import ToyProblemRegime
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.capacity_bound import CapacityBoundRegime
@@ -65,6 +66,7 @@ def main() -> None:
     zkevms = [
         Risc0Preset.default(),
         MidenPreset.default(),
+        ZiskPreset.default(),
     ]
 
     security_regimes = [
