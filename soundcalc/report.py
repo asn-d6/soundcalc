@@ -225,7 +225,7 @@ def build_markdown_report(
     ]
     regime_label = {
         "unique_decoding": "UDR",
-        "johnson_bound": "JB",
+        "johnson_bound": "JBR",
         "capacity_bound": "CBR",
         "toy_problem": "TPR",
     }
@@ -272,6 +272,10 @@ def build_markdown_report(
         lines.append(f"- Field: {field_name}")
         lines.append(f"- Rate (ρ): {zkevm_params.rho}")
         lines.append(f"- Trace length (H): 2^{zkevm_params.h}")
+        if zkevm_params.power_batching:
+            lines.append(f"- Batching: Powers")
+        else:
+            lines.append(f"- Batching: Affine")
         lines.append("")
 
         # Header row

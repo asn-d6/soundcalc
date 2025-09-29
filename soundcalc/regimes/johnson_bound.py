@@ -12,7 +12,8 @@ import math
 
 class JohnsonBoundRegime(Regime):
     """
-    List decoding up-to-Johnson bound regime (JBR)
+    List decoding up-to-Johnson bound regime (JBR):
+    The proximity parameter θ is in the range `(1 - ρ)/2 < θ < 1 - √ρ` where ρ is the rate
 
     This is Regime 2 from the RISC0 Python calculator
     """
@@ -23,7 +24,7 @@ class JohnsonBoundRegime(Regime):
     def compute_security(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
         self.params = params
         rho = params.rho
-        m = get_johnson_parameter_m()
+        m = get_johnson_parameter_m()  # TODO DK: it is not clear if this is the right m to use. To investigate.
 
         alpha, theta = self._get_alpha_and_theta(rho, m)
 
@@ -80,13 +81,18 @@ class JohnsonBoundRegime(Regime):
         """
         Get list size for the Johnson bound regime.
         The value is from the Guruswami-Sudan decoder.
+        Concrete formulas and notation are taken from pages 16-18 of [Ha22] with
+        the final formula from Theorem 8 of [Ha22].
         """
         r_plus = get_rho_plus(self.params.trace_length, self.params.D, self.params.max_combo)
+        # Sanity checks. The theta must have been selected to have this valid
+        # TODO guarantee that
         assert theta < 1 - math.sqrt(r_plus)
         m_plus = self._get_minimal_m_plus(r_plus, alpha)
         assert theta <= 1 - math.sqrt(r_plus) * (1 + 1 / (2 * m_plus))
 
-        # Note: Miden computes L differently (see Theorem 2 of https://eprint.iacr.org/2024/1553.pdf)
+        # Note: Miden computes L differently (see eps_1 of Theorem 2 of https://eprint.iacr.org/2024/1553.pdf)
+        # TODO figure out the right one for Miden
         #    L_miden = m / (params.rho - (2.0 * m / params.D));
         # Small difference for RISC0 parameters:
         #  RISC0=35, Miden=64
@@ -96,9 +102,27 @@ class JohnsonBoundRegime(Regime):
         """
         Get the proximity gap error for the Johnson bound regime.
         This is the error of the commit phase of FRI as computed by the correlated agreement theorem in BCIKS20.
-        Concretely, Theorem 5.1 in BCIKS20 (eprint) contains this bound.
         """
-        return ((m + 0.5) ** 7) / (3 * (rho ** 1.5)) * (self.params.D ** 2) / self.params.F
+
+        # Note: the errors for correlated agreement in the following two cases differ,
+        # which is related to the batching method:
+        #
+        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_polys-1}
+        # This is what is called batching over parameterized curves in BCIKS20.
+        # Here, the error depends on num_polys (called l in BCIKS20), and we find
+        # the error in Theorem 6.2.
+        #
+        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_polys-1}
+        # This is what is called batching over affine spaces in BCIKS20.
+        # Here, the error does not depend on num_polys (called l in BCIKS20), and we find
+        # the error in Theorem 1.6.
+        #
+        # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
+
+        error = ((m + 0.5) ** 7) / (3 * (rho ** 1.5)) * (self.params.D ** 2) / self.params.F
+        if self.params.power_batching:
+            error *= self.params.num_polys
+        return error
 
 
 def get_batched_FRI_commit_phase_error(
@@ -115,8 +139,10 @@ def get_batched_FRI_commit_phase_error(
     See Theorem 8.3 of BCIKS20.
     Also, seen in Theorem 2 of Ha22, and Theorem 1 of eSTARK paper.
 
-    Note: This function is used by both JBR and CBR.
+    Note: This function is also used by CBR, but there is no good foundation for it yet.
+    TODO Find a better formula for CBR.
     """
     last_term = (2 * m + 1) * (D + 1) * (FRI_rounds_n * FRI_folding_factor) / (math.sqrt(rho) * F)
     # XXX num_polys should not play a role here if we are doing linear batching
+    # TODO rename the function to indicate linear batching
     return (num_polys - 0.5) * e_proximity_gap + last_term

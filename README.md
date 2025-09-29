@@ -36,9 +36,9 @@ To evaluate the *concrete soundness level* of such a system, we introduce a para
 The soundness level is then determined as a function of `θ` and the zkEVM parameters (e.g., field size, code rate).
 Depending on the value of `θ`, the analysis falls into different regimes:
 
-- **UDR (Unique Decoding Regime):** `θ ≤ (1 - ρ)/2`, where `ρ` is the code rate.
-- **JBR (Johnson Bound Regime):** `(1 - ρ)/2 < θ < 1 - √ρ`.
-- **CBR (Capacity Bound Regime):** Roughly `θ < 1 - ρ`.
+- **UDR (Unique Decoding Regime):** $\theta  \leq  (1 - \rho)/2$, where $\rho$ is the code rate.
+- **JBR (Johnson Bound Regime):** $(1 - \rho)/2 < \theta < 1 - \sqrt{\rho}$.
+- **CBR (Capacity Bound Regime):** Roughly $\theta < 1 - \rho$.
   *Note: The analysis in this regime depends on unproven conjectures about Reed–Solomon codes.*
 
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
@@ -64,9 +64,9 @@ More inspiration:
 - [Winterfell calculator](https://github.com/facebook/winterfell/blob/main/air/src/proof/security.rs)
 - [xkcd](https://xkcd.com/927/)
 
-Based on papers:
-- [BCIKS20](https://eprint.iacr.org/2020/654)
-- [ethSTARK](https://eprint.iacr.org/2021/582)
-- [Ha22](https://eprint.iacr.org/2022/1216)
-- [eSTARK](https://eprint.iacr.org/2023/474)
+Based on papers (links point to specific versions where possible):
+- [BCIKS20](https://eprint.iacr.org/archive/2020/654/20210703:203025)
+- [ethSTARK](https://eprint.iacr.org/archive/2021/582/20250608:155119)
+- [Ha22](https://eprint.iacr.org/archive/2022/1216/20241217:162441)
+- [eSTARK](https://eprint.iacr.org/archive/2023/474/20230331:165019)
 - [RISC0](https://dev.risczero.com/proof-system-in-detail.pdf)

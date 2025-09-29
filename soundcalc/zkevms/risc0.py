@@ -10,7 +10,8 @@ class Risc0Preset:
         """
         Populate a zkEVMConfig instance with zkVM parameters.
 
-        For RISC0, we use the ones in https://github.com/risc0/risc0/blob/main/risc0/zkp/src/docs/soundness.ipynb
+        For RISC0, we use the ones in https://github.com/risc0/risc0/blob/ebc18c770c4dd5a8e8dfdca1297edb181848405f/risc0/zkp/src/docs/soundness.ipynb
+        (dated September 2024)
         Also, see section 3.2 from the RISC0 proof system technical report:
            https://dev.risczero.com/proof-system-in-detail.pdf
 
@@ -28,9 +29,14 @@ class Risc0Preset:
         L = C + 4
         s = 50
         max_combo = 9
+        AIR_max_degree = 4 #They use 5 but in the DEEP-ALI error they use (d-1) so we put 4 here.
 
         FRI_folding_factor = 16
         FRI_early_stop_degree = 2**8
+
+        # according to https://dev.risczero.com/proof-system-in-detail.pdf Sections C.6 and 3.4
+        # Risc0 uses batching with coefficients r^0, r^1, r^2, ...
+        power_batching = True
 
         cfg = zkEVMConfig(
             name="risc0",
@@ -39,12 +45,12 @@ class Risc0Preset:
             field=field,
             num_columns=C,
             num_polys=L,
+            power_batching=power_batching,
             num_queries=s,
             max_combo=max_combo,
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,
             grinding_query_phase=0,
+            AIR_max_degree=AIR_max_degree,
         )
         return zkEVMParams(cfg)
-
-
