@@ -62,6 +62,7 @@ def get_size_of_merkle_path_bits(num_leafs: int, tuple_size: int, element_size_b
 
     Note: the result contains both the leaf and the Merkle path.
     '''
+    assert num_leafs > 0
     leaf_size = tuple_size * element_size_bits
     sibling = tuple_size * element_size_bits
     tree_depth = math.ceil(math.log2(num_leafs))
@@ -104,7 +105,8 @@ def get_FRI_proof_size_bits(
     # Folding rounds
     # We assume that "siblings" for the following layers are grouped together
     # in one leaf. This is natural as they always need to be opened together.
-    while n // int(field_extension_degree) > int(early_stop_degree):
+    # TODO: need to check if that is actually the correct loop
+    while n // int(field_extension_degree) > int(early_stop_degree) and n // int(folding_factor * folding_factor) > 0:
         n //= int(folding_factor)
         num_leafs = n // int(folding_factor)
         tuple_size = folding_factor
