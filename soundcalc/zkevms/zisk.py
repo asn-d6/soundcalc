@@ -34,10 +34,13 @@ class ZiskPreset:
         num_polys = num_columns + 2 # +2 for the composition polynomials
 
         num_queries = 128 // int(math.log2(blowup_factor))
-        max_combo = 3
+
+        AIR_max_degree = blowup_factor + 1
 
         FRI_folding_factor = 2**4
         FRI_early_stop_degree = 2**5
+
+        max_combo = 3
 
         cfg = zkEVMConfig(
             name="ZisK",
@@ -46,10 +49,12 @@ class ZiskPreset:
             field=field,
             num_columns=num_columns,
             num_polys=num_polys,
+            power_batching=True,
             num_queries=num_queries,
-            max_combo=max_combo,
+            AIR_max_degree=AIR_max_degree,
             FRI_folding_factor=FRI_folding_factor,
             FRI_early_stop_degree=FRI_early_stop_degree,
+            max_combo=max_combo,
             grinding_query_phase=0,
         )
         return zkEVMParams(cfg)

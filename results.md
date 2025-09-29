@@ -46,15 +46,16 @@ TPR | 96 | — | 127 | **97** | 96 | — | — | 106 | 105
 ## ZisK
 
 **Parameters:**
-- Number of queries: 128.0
+- Number of queries: 128
 - Grinding (bits): 0
 - Field: Unknown
 - Rate (ρ): 0.5
 - Trace length (H): 2^22
+- Batching: Powers
 
 Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
 --- | --- | --- | --- | --- | --- | --- | --- | --- | ---
 UDR | 53 | 162 | 161 | **53** | 53 | 185 | 167 | 166 | 164
-JB | 58 | 117 | 111 | **58** | 58 | 181 | 163 | 166 | 164
+JBR | 58 | 111 | 105 | **58** | 58 | 181 | 163 | 166 | 164
 CBR | 110 | 157 | 151 | **110** | 110 | 158 | 140 | 166 | 164
 TPR | 127 | — | 191 | **128** | 128 | — | — | 166 | 164
