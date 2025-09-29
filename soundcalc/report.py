@@ -279,7 +279,8 @@ def build_markdown_report(
         lines.append("")
 
         # Proof size
-        lines.append(f"<b>Proof Size Estimate:</b> {zkevm_params.proof_size_bits / KIB} KiB, where 1 KiB = 2^10 Byte")
+        proof_size_kib = zkevm_params.proof_size_bits // KIB
+        lines.append(f"<b>Proof Size Estimate:</b> {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
         lines.append("")
 
 
