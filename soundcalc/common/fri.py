@@ -106,7 +106,7 @@ def get_FRI_proof_size_bits(
     # We assume that "siblings" for the following layers are grouped together
     # in one leaf. This is natural as they always need to be opened together.
     # TODO: need to check if that is actually the correct loop
-    while n // int(field_extension_degree) > int(early_stop_degree) and n // int(folding_factor * folding_factor) > 0:
+    while n // int(folding_factor * field_extension_degree) >= int(early_stop_degree):
         n //= int(folding_factor)
         num_leafs = n // int(folding_factor)
         tuple_size = folding_factor
