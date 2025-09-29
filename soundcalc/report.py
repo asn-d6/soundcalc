@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from typing import Dict, Any, List, Tuple
-
+from .common.utils import KIB
 
 def bits(x: float) -> float:
     return -math.log2(x)
@@ -277,6 +277,12 @@ def build_markdown_report(
         else:
             lines.append(f"- Batching: Affine")
         lines.append("")
+
+        # Proof size
+        proof_size_kib = zkevm_params.proof_size_bits // KIB
+        lines.append(f"<b>Proof Size Estimate:</b> {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+        lines.append("")
+
 
         # Header row
         header = ["Regime"] + [name for name, _ in columns]

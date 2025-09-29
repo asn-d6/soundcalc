@@ -9,7 +9,7 @@ from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.capacity_bound import CapacityBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_combined_html_report, build_markdown_report
-
+from .common.utils import KIB
 
 def compute_security_for_zkevm(security_regimes: list, params) -> dict[str, dict]:
     """
@@ -46,6 +46,8 @@ def print_summary_for_zkevm(zkevm_params, security_regimes: list, results: dict[
     """
     totals_line = "; ".join([f"{name}: {res['total_bits']:.3f}b" for name, res in results.items()])
     print(f"zkEVM: {zkevm_params.name}")
+    proof_size_kib = zkevm_params.proof_size_bits // KIB
+    print(f"  proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
     print(f"  totals :: {totals_line}")
 
     # Print security for each security regime
@@ -87,5 +89,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
