@@ -1,28 +1,40 @@
 from __future__ import annotations
+import json
 
-import math
+from soundcalc.common.utils import get_proof_system_levels
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
 from soundcalc.zkevms.zisk import ZiskPreset
-from soundcalc.regimes.ethstark import ToyProblemRegime
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.capacity_bound import CapacityBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_combined_html_report, build_markdown_report
 
 
-def compute_security_for_zkevm(security_regimes: list, params) -> dict[str, dict]:
+def get_rbr_levels_for_zkevm_and_regime(regime, params) -> dict[str, int]:
+
+    # the round-by-round errors consist of the ones for FRI and for the proof system
+    # and we also add a total, which is the minimum over all of them.
+
+    fri_levels = regime.get_rbr_errors(params)
+    list_size = regime.get_bound_on_list_size(params)
+    proof_system_levels = get_proof_system_levels(list_size, params)
+
+    total = min(list(fri_levels.values()) + list(proof_system_levels.values()))
+
+    return fri_levels | proof_system_levels | {"total": total}
+
+
+
+def compute_security_for_zkevm(fri_regimes: list, params) -> dict[str, dict]:
     """
     Compute bits of security for a single zkEVM across all security regimes.
     """
     results: dict[str, dict] = {}
 
-    for security_regime in security_regimes:
-        total_bits, details = security_regime.compute_security(params)
-        results[security_regime.identifier()] = {
-            "total_bits": total_bits,
-            "details": dict(details),
-        }
+    for fri_regime in fri_regimes:
+        rbr_errors = get_rbr_levels_for_zkevm_and_regime(fri_regime, params)
+        results[fri_regime.identifier()] = rbr_errors
 
     return results
 
@@ -44,13 +56,10 @@ def print_summary_for_zkevm(zkevm_params, security_regimes: list, results: dict[
     """
     Print a summary of security results for a single zkEVM.
     """
-    totals_line = "; ".join([f"{name}: {res['total_bits']:.3f}b" for name, res in results.items()])
     print(f"zkEVM: {zkevm_params.name}")
-    print(f"  totals :: {totals_line}")
 
     # Print security for each security regime
-    for security_regime in security_regimes:
-        security_regime.print_security_summary()
+    print(json.dumps(results, indent=4))
 
 
 def main() -> None:
@@ -73,7 +82,6 @@ def main() -> None:
         UniqueDecodingRegime(),
         JohnsonBoundRegime(),
         CapacityBoundRegime(),
-        ToyProblemRegime(),
     ]
 
     # Analyze each zkEVM across all security regimes
@@ -83,9 +91,7 @@ def main() -> None:
         sections.append((zkevm_params.name, results, zkevm_params))
 
     # Generate and save markdown report
-    generate_and_save_md_report(sections)
+    # generate_and_save_md_report(sections)
 
 if __name__ == "__main__":
     main()
-
-
