@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 
 from soundcalc.common.utils import get_proof_system_levels
+from soundcalc.regimes.ethstark import toy_problem_security
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
 from soundcalc.zkevms.zisk import ZiskPreset
@@ -32,9 +33,13 @@ def compute_security_for_zkevm(fri_regimes: list, params) -> dict[str, dict]:
     """
     results: dict[str, dict] = {}
 
+    # first all reasonable regimes
     for fri_regime in fri_regimes:
         rbr_errors = get_rbr_levels_for_zkevm_and_regime(fri_regime, params)
         results[fri_regime.identifier()] = rbr_errors
+
+    # now the toy problem conjecture (just for reference, we know that it is wrong)
+    results["ethstark toy problem"] = toy_problem_security(params)
 
     return results
 
