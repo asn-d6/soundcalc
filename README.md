@@ -21,12 +21,14 @@ As a result, the calculator generates / updates [`results.md`](results.md).
 We currently support the following zkEVMs:
 - RISC0
 - Miden
+- Zisk
 
 We support the following security regimes (see below for explanation of regimes):
 - Unique Decoding Regime (UDR)
 - Johnson Bound Regime (JBR)
 - Capacity Bound Regime (CBR)
-- Toy Problem Regime (TPR)
+
+In addition, we give a number based on the ethstark toy problem conjecture for reference.
 
 ## Background on Security Regimes
 
