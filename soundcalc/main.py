@@ -9,7 +9,7 @@ from soundcalc.zkevms.zisk import ZiskPreset
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.capacity_bound import CapacityBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
-from soundcalc.report import build_combined_html_report, build_markdown_report
+from soundcalc.report import build_markdown_report
 
 
 def get_rbr_levels_for_zkevm_and_regime(regime, params) -> dict[str, int]:
@@ -44,11 +44,11 @@ def compute_security_for_zkevm(fri_regimes: list, params) -> dict[str, dict]:
     return results
 
 
-def generate_and_save_md_report(sections: list[tuple[str, dict[str, dict], object]]) -> None:
+def generate_and_save_md_report(sections) -> None:
     """
     Generate markdown report and save it to disk.
     """
-    md = build_markdown_report(title="soundcalc results", sections=sections)
+    md = build_markdown_report(sections)
     md_path = "results.md"
 
     with open(md_path, "w", encoding="utf-8") as f:
@@ -57,13 +57,11 @@ def generate_and_save_md_report(sections: list[tuple[str, dict[str, dict], objec
     print(f"wrote :: {md_path}")
 
 
-def print_summary_for_zkevm(zkevm_params, security_regimes: list, results: dict[str, dict]) -> None:
+def print_summary_for_zkevm(zkevm_params, results: dict[str, dict]) -> None:
     """
     Print a summary of security results for a single zkEVM.
     """
     print(f"zkEVM: {zkevm_params.name}")
-
-    # Print security for each security regime
     print(json.dumps(results, indent=4))
 
 
@@ -75,7 +73,7 @@ def main() -> None:
     generate reports, and save results to disk.
     """
     # Data structure for compiling the markdown report
-    sections: list[tuple[str, dict[str, dict], object]] = []
+    sections = {}
 
     zkevms = [
         Risc0Preset.default(),
@@ -92,11 +90,11 @@ def main() -> None:
     # Analyze each zkEVM across all security regimes
     for zkevm_params in zkevms:
         results = compute_security_for_zkevm(security_regimes, zkevm_params)
-        print_summary_for_zkevm(zkevm_params, security_regimes, results)
-        sections.append((zkevm_params.name, results, zkevm_params))
+        print_summary_for_zkevm(zkevm_params, results)
+        sections[zkevm_params.name] = (zkevm_params, results)
 
     # Generate and save markdown report
-    # generate_and_save_md_report(sections)
+    generate_and_save_md_report(sections)
 
 if __name__ == "__main__":
     main()
