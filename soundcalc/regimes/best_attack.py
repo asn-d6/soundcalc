@@ -6,9 +6,11 @@ from typing import Any
 from ..common.utils import get_bits_of_security_from_error, get_proof_system_levels
 
 
-def toy_problem_security(params: zkEVMParams) -> int:
+def best_attack_security(params: zkEVMParams) -> int:
     """
-    Toy Problem Regime (TPR), also known as "ethSTARK conjecture"
+    Security level based on the best known attack.
+
+    Currently, this is based on the toy problem also known as "ethSTARK conjecture".
     It uses the simplest and probably the most optimistic soundness analysis.
 
     Note: this is just for historical reference, the toy problem security has no real meaning.

@@ -2,7 +2,7 @@ from __future__ import annotations
 import json
 
 from soundcalc.common.utils import get_proof_system_levels
-from soundcalc.regimes.ethstark import toy_problem_security
+from soundcalc.regimes.best_attack import best_attack_security
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
 from soundcalc.zkevms.zisk import ZiskPreset
@@ -17,8 +17,9 @@ def get_rbr_levels_for_zkevm_and_regime(regime, params) -> dict[str, int]:
     # the round-by-round errors consist of the ones for FRI and for the proof system
     # and we also add a total, which is the minimum over all of them.
 
-    fri_levels = regime.get_rbr_errors(params)
+    fri_levels = regime.get_rbr_levels(params)
     list_size = regime.get_bound_on_list_size(params)
+
     proof_system_levels = get_proof_system_levels(list_size, params)
 
     total = min(list(fri_levels.values()) + list(proof_system_levels.values()))
@@ -38,8 +39,8 @@ def compute_security_for_zkevm(fri_regimes: list, params) -> dict[str, dict]:
         rbr_errors = get_rbr_levels_for_zkevm_and_regime(fri_regime, params)
         results[fri_regime.identifier()] = rbr_errors
 
-    # now the toy problem conjecture (just for reference, we know that it is wrong)
-    results["ethstark toy problem"] = toy_problem_security(params)
+    # now the security based on the best known attack - for reference
+    results["best attack"] = best_attack_security(params)
 
     return results
 

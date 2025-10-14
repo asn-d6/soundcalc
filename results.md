@@ -24,7 +24,7 @@ The cell values are the bits of security for each such component.
 | unique_decoding | 115 | 100 | 92 | 96 | 96 | 96 | 96 | 33 | 98 | 96 | 33 |
 | johnson_bound | 110 | 95 | 39 | 90 | 90 | 90 | 90 | 47 | 98 | 96 | 39 |
 | capacity_bound | 88 | 72 | 86 | 90 | 90 | 90 | 90 | 86 | 98 | 96 | 72 |
-| ethstark toy problem | — | — | — | — | — | — | — | — | — | — | 95 |
+| best attack | — | — | — | — | — | — | — | — | — | — | 95 |
 
 ## miden
 
@@ -41,7 +41,7 @@ The cell values are the bits of security for each such component.
 | unique_decoding | 121 | 106 | 100 | 105 | 105 | 105 | 105 | 105 | 105 | 105 | 38 | 106 | 105 | 38 |
 | johnson_bound | 115 | 101 | 48 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 55 | 106 | 105 | 48 |
 | capacity_bound | 96 | 81 | 93 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 83 | 106 | 105 | 81 |
-| ethstark toy problem | — | — | — | — | — | — | — | — | — | — | — | — | — | 96 |
+| best attack | — | — | — | — | — | — | — | — | — | — | — | — | — | 96 |
 
 ## ZisK
 
@@ -58,4 +58,4 @@ The cell values are the bits of security for each such component.
 | unique_decoding | 185 | 167 | 162 | 165 | 165 | 165 | 165 | 165 | 53 | 166 | 164 | 53 |
 | johnson_bound | 181 | 163 | 111 | 159 | 159 | 159 | 159 | 159 | 58 | 166 | 164 | 58 |
 | capacity_bound | 158 | 140 | 157 | 159 | 159 | 159 | 159 | 159 | 110 | 166 | 164 | 110 |
-| ethstark toy problem | — | — | — | — | — | — | — | — | — | — | — | 127 |
+| best attack | — | — | — | — | — | — | — | — | — | — | — | 127 |

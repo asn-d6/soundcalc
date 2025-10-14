@@ -13,8 +13,9 @@ def get_rho_plus(H: int, D: float, max_combo: int) -> float:
 def get_proof_system_levels(L_plus: float, params: zkEVMParams):
     """
     Compute common proof system error components that are shared across regimes.
+    Some of them depend on the list size L_plus
 
-    Returns a tuple: (e_ALI, e_DEEP, e_PLONK, e_PLOOKUP)
+    Returns a dictionary containing levels for ALI, DEEP, PLONK, PLOOKUP
     """
 
     # TODO Check that it holds for all regimes

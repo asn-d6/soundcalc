@@ -47,9 +47,9 @@ class FRIRegime:
         """
         raise NotImplementedError
 
-    def get_rbr_errors(self, params: zkEVMParams) -> dict[str, int]:
+    def get_rbr_levels(self, params: zkEVMParams) -> dict[str, int]:
         """
-        Returns a dictionary that contains the round-by-round soundness errors.
+        Returns a dictionary that contains the round-by-round soundness levels.
         It maps from a label that explains which round it is for to an integer.
         If this integer is, say, k, then it means the error for this round is at
         most 2^{-k}.
