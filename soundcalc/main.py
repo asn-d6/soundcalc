@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import math
+from typing import Any
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
 from soundcalc.zkevms.zisk import ZiskPreset
@@ -11,15 +11,15 @@ from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_combined_html_report, build_markdown_report
 
 
-def compute_security_for_zkevm(security_regimes: list, params) -> dict[str, dict]:
+def compute_security_for_zkevm(security_regimes: list[Any], params: Any) -> dict[str, dict[str, Any]]:
     """
     Compute bits of security for a single zkEVM across all security regimes.
     """
-    results: dict[str, dict] = {}
+    results: dict[str, dict[str, Any]] = {}
 
-    for security_regime in security_regimes:
-        total_bits, details = security_regime.compute_security(params)
-        results[security_regime.identifier()] = {
+    for regime in security_regimes:
+        total_bits, details = regime.compute_security(params)
+        results[regime.identifier()] = {
             "total_bits": total_bits,
             "details": dict(details),
         }
@@ -27,7 +27,7 @@ def compute_security_for_zkevm(security_regimes: list, params) -> dict[str, dict
     return results
 
 
-def generate_and_save_md_report(sections: list[tuple[str, dict[str, dict], object]]) -> None:
+def generate_and_save_md_report(sections: list[tuple[str, dict[str, dict[str, Any]], Any]]) -> None:
     """
     Generate markdown report and save it to disk.
     """
@@ -37,10 +37,10 @@ def generate_and_save_md_report(sections: list[tuple[str, dict[str, dict], objec
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(md)
 
-    print(f"wrote :: {md_path}")
+    print(f"Wrote :: {md_path}")
 
 
-def print_summary_for_zkevm(zkevm_params, security_regimes: list, results: dict[str, dict]) -> None:
+def print_summary_for_zkevm(zkevm_params: Any, security_regimes: list[Any], results: dict[str, dict[str, Any]]) -> None:
     """
     Print a summary of security results for a single zkEVM.
     """
@@ -49,8 +49,8 @@ def print_summary_for_zkevm(zkevm_params, security_regimes: list, results: dict[
     print(f"  totals :: {totals_line}")
 
     # Print security for each security regime
-    for security_regime in security_regimes:
-        security_regime.print_security_summary()
+    for regime in security_regimes:
+        regime.print_security_summary()
 
 
 def main() -> None:
@@ -61,7 +61,7 @@ def main() -> None:
     generate reports, and save results to disk.
     """
     # Data structure for compiling the markdown report
-    sections: list[tuple[str, dict[str, dict], object]] = []
+    sections: list[tuple[str, dict[str, dict[str, Any]], Any]] = []
 
     zkevms = [
         Risc0Preset.default(),
@@ -85,7 +85,6 @@ def main() -> None:
     # Generate and save markdown report
     generate_and_save_md_report(sections)
 
+
 if __name__ == "__main__":
     main()
-
-
