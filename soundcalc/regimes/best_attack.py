@@ -20,17 +20,17 @@ def best_attack_security(params: zkEVMParams) -> int:
 
     # FRI errors under the toy problem regime
     # see "Toy problem security" in §5.9.1 of the ethSTARK paper
-    commit_phase = 1 / params.F
-    query_phase_without_grinding = params.rho ** params.num_queries
+    commit_phase_error = 1 / params.F
+    query_phase_error_without_grinding = params.rho ** params.num_queries
     # Add bits of security from grinding (see section 6.3 in ethSTARK)
-    query_phase_with_grinding = query_phase_without_grinding * 2 ** (-params.grinding_query_phase)
+    query_phase_error_with_grinding = query_phase_error_without_grinding * 2 ** (-params.grinding_query_phase)
 
     # Compute proof system errors, but ignore ALI/DEEP under the toy problem regime
     levels_proof_system = get_proof_system_levels(params.num_polys, params)
     error_plonk = 2**(-levels_proof_system["PLONK"])
     error_plookup = 2**(-levels_proof_system["PLOOKUP"])
 
-    final_error = commit_phase + query_phase_with_grinding + error_plonk + error_plookup
+    final_error = commit_phase_error + query_phase_error_with_grinding + error_plonk + error_plookup
     final_level = get_bits_of_security_from_error(final_error)
 
     return final_level
