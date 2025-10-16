@@ -11,7 +11,7 @@ from ..zkevms.zkevm import zkEVMParams
 
 class FRIRegime:
     """
-    A class representing a regime for FRI analysis. Soundcalc supports four regimes:
+    A class representing a regime for FRI analysis. Soundcalc supports three regimes:
     - Unique Decoding Regime (UDR)
     - List Decoding up to Johnson Bound (JBR),
     - List Decoding up to Capacity Bound (CBR).
