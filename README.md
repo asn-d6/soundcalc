@@ -21,12 +21,14 @@ As a result, the calculator generates / updates [`results.md`](results.md).
 We currently support the following zkEVMs:
 - RISC0
 - Miden
+- Zisk
 
 We support the following security regimes (see below for explanation of regimes):
 - Unique Decoding Regime (UDR)
 - Johnson Bound Regime (JBR)
 - Capacity Bound Regime (CBR)
-- Toy Problem Regime (TPR)
+
+In addition, we give a number based on the ethstark toy problem conjecture for reference.
 
 ## Background on Security Regimes
 
@@ -44,13 +46,15 @@ Depending on the value of `θ`, the analysis falls into different regimes:
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
 All three regimes therefore apply to the *same zkEVM instance* without any change.
 
-The **Toy Problem Regime (TPR)** is different in a sense that no specific `θ` is used, but instead a conjecture on the concrete error bound is made.
+We also output the security level estimated by considering the currently best known attack.
+Here, we currently follow the **Toy Problem Regime (TPR) / ethSTARK conjecture**.
+
 
 ## Project Layout
 
 - `soundcalc/main.py`: Entry point
 - `soundcalc/zkevms/`: One file per supported zkEVM
-- `soundcalc/regimes/`: One file per regime (unique decoding, johnson bound, toy problem, ...)
+- `soundcalc/regimes/`: One file per regime (unique decoding, johnson bound, ...)
 - `soundcalc/common/`: Common utilities used by the entire codebase
 - `soundcalc/report.py`: Markdown report generator
 

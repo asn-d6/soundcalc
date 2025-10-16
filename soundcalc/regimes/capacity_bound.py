@@ -2,95 +2,64 @@ from __future__ import annotations
 
 import math
 
+# TODO: Conjectured.
+C1 = 1.0
+C2 = 1.0
+C3 = 1.0 # List size related
 
-from .regime import Regime
+from .fri_regime import FRIRegime
 from ..zkevms.zkevm import zkEVMParams
-from soundcalc.common.fri import get_johnson_parameter_m, get_FRI_query_phase_error
-import soundcalc.regimes.johnson_bound as johnson_bound
-from ..common.utils import get_rho_plus, get_proof_system_errors
+from soundcalc.common.fri import get_johnson_parameter_m
+from ..common.utils import get_rho_plus
 
-class CapacityBoundRegime(Regime):
+class CapacityBoundRegime(FRIRegime):
     """
     List decoding up to Capacity Bound Regime (CBR)
 
     This is Regime 3 from the RISC0 python calculator.
-    This regime assumes the proximity conjecture with parameters c_1,c_2 (set below) + the list size
-    conjecture parameter c_3 (also set).
+    This regime assumes the proximity conjecture with parameters C1,C2 + the list size
+    conjecture parameter C3.
     """
 
     def identifier(self) -> str:
         return "capacity_bound"
 
-    def compute_security(self, params: zkEVMParams) -> tuple[float, dict[str, Any]]:
-        self.params = params
-        rho = params.rho
 
-        # Default conjecture parameters, which are widely used in literature. A more conservative
-        # choice would be to set them to 2.0
-        c_1 = 1.0
-        c_2 = 1.0
-        c_3 = 1.0  # controls the list size
-
-        # This is called epsilon in the RISC0 calculator, but it's usually eta elsewhere
-        # It denotes how close we are to the capacity bound
-        # TODO DK: figure out if we can optimize this parameter
-        eta = 0.05
-
-        # Here we follow the RISC0 calculator and use the same estimate for m as in JBR, but it may
-        # be suboptimal for CBR
-        # TODO DK: figure out if we can optimize this parameter
-        m = get_johnson_parameter_m()
-
-        # Compute theta for this regime
-        theta = 1 - rho - eta
-
-        # Compute the FRI errors
-        self.e_proximity_gap = self._get_proximity_gap_error(c_1, c_2, eta, rho)
-        # We use the JBR commit phase error in CBR
-        self.e_FRI_commit_phase = johnson_bound.get_batched_FRI_commit_phase_error(
-            params.num_polys,
-            self.e_proximity_gap,
-            m,
-            params.D,
-            params.rho,
-            params.F,
-            params.FRI_rounds_n,
-            params.FRI_folding_factor,
-        )
-        self.e_FRI_query_phase = get_FRI_query_phase_error(theta, params.num_queries, params.grinding_query_phase)
-        self.e_FRI_final = self.e_FRI_commit_phase + self.e_FRI_query_phase
-
-        # Compute list size under this regime
-        L_plus = self._get_list_size(theta, c_3)
-
-        # Compute remaining proof system errors
-        (self.e_ALI, self.e_DEEP, self.e_PLONK, self.e_PLOOKUP) = get_proof_system_errors(L_plus, params)
-
-        self.e_final = self.e_FRI_final + self.e_ALI + self.e_DEEP + self.e_PLONK + self.e_PLOOKUP
-
-        return self.gets_bits_of_security_from_error()
-
-    def _get_list_size(self, theta: float, C_rho: float) -> int:
+    def get_bound_on_list_size(self, params: zkEVMParams) -> int:
         """
-        Get list size for the capacity bound regime.
-        This is conjectured (e.g. see Conjecture 5.6 in the STIR paper)
+        Returns an upper bound on the list size of this regime, i.e., the number of codewords
+        a function is close to.
         """
+
         # ASN This computation is again kinda different between Ha22 and STIR conjecture.
         # Clarify and document why we are using this one.
-        r_plus = get_rho_plus(self.params.trace_length, self.params.D, self.params.max_combo)
+        r_plus = get_rho_plus(params.trace_length, params.D, params.max_combo)
         # we assume that the theta has been chosen that this assert always holds
         # however, we might want to guarantee that
         # TODO DK: figure out how to guarantee that
+        theta = self.get_theta(params)
         assert theta < 1 - r_plus
         eta_plus = 1 - r_plus - theta
 
-        return math.ceil((self.params.D / eta_plus) ** C_rho)
+        return math.ceil((params.D / eta_plus) ** C3)
 
-    def _get_proximity_gap_error(self, c_1: float, c_2: float, eta: float, rho: float) -> float:
+
+    def get_theta(self, params: zkEVMParams) -> float:
         """
-        Get the proximity gap error for the capacity bound regime.
-        This is based on a conjecture in the BCIKS20 paper.
+        Returns the theta for the query phase error.
         """
+        eta = self._get_eta()
+        theta = 1 - params.rho - eta
+        return theta
+
+
+    def get_batching_error(self, params: zkEVMParams) -> float:
+        """
+        Returns the error for the FRI batching step for this regime.
+        """
+
+        eta = self._get_eta()
+        rho = params.rho
 
         # Note: the errors for correlated agreement in the following two cases differ,
         # which is related to the batching method:
@@ -106,9 +75,33 @@ class CapacityBoundRegime(Regime):
         # the error in Conjecture 8.4, first item.
         #
         # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
-        term_one =  1 / ((eta * rho) ** c_1)
-        term_two =  (self.params.D ** c_2) / self.params.F
+        term_one =  1 / ((eta * rho) ** C1)
+        term_two =  (params.D ** C2) / params.F
         error = term_one * term_two
-        if self.params.power_batching:
-            error *= self.params.num_polys ** c_2
+        if params.power_batching:
+            error *= params.num_polys ** C2
         return error
+
+    def get_commit_phase_error(self, params: zkEVMParams) -> float:
+        """
+        Returns the error for the FRI commit phase for this regime.
+        """
+        # Note: This function is used by CBR, but there is no good foundation for it yet.
+        # It is just copied from JBR.
+        # TODO Find a better formula for CBR.
+        m = self._get_m()
+        error = (2 * m + 1) * (params.D + 1) * params.FRI_folding_factor / (math.sqrt(params.rho) * params.F)
+        return error
+
+
+    def _get_eta(self):
+        # This is called epsilon in the RISC0 calculator, but it's usually eta elsewhere
+        # It denotes how close we are to the capacity bound
+        # TODO DK: figure out if we can optimize this parameter
+        eta = 0.05
+
+        return eta
+
+    def _get_m(self):
+        m = get_johnson_parameter_m()  # TODO DK: it is not clear if this is the right m to use. To investigate.
+        return m

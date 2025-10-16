@@ -2,17 +2,20 @@ from __future__ import annotations
 
 from ..zkevms.zkevm import zkEVMParams
 
+import math
+
 def get_rho_plus(H: int, D: float, max_combo: int) -> float:
     """Compute rho+. See page 16 of Ha22"""
     # XXX Should this be (H + 2) / D? This part is cryptic in [Ha22]
     # TODO Figure out
     return (H + max_combo) / D
 
-def get_proof_system_errors(L_plus: float, params: zkEVMParams):
+def get_proof_system_levels(L_plus: float, params: zkEVMParams):
     """
     Compute common proof system error components that are shared across regimes.
+    Some of them depend on the list size L_plus
 
-    Returns a tuple: (e_ALI, e_DEEP, e_PLONK, e_PLOOKUP)
+    Returns a dictionary containing levels for ALI, DEEP, PLONK, PLOOKUP
     """
 
     # TODO Check that it holds for all regimes
@@ -31,6 +34,17 @@ def get_proof_system_errors(L_plus: float, params: zkEVMParams):
 
     e_PLONK = params.field_extension_degree * 5 * params.trace_length / params.F  # XXX this 5 is a RISC0 magic number n_{σ_{mem}} == 5.
     e_PLOOKUP = params.field_extension_degree * 15 * params.trace_length / params.F  # XXX this 15 is a RISC0 magic number n_{σ_{bytes}} == 15.
-    return e_ALI, e_DEEP, e_PLONK, e_PLOOKUP
 
+    levels = {}
+    levels["ALI"] = get_bits_of_security_from_error(e_ALI)
+    levels["DEEP"] = get_bits_of_security_from_error(e_DEEP)
+    levels["PLONK"] = get_bits_of_security_from_error(e_PLONK)
+    levels["PLOOKUP"] = get_bits_of_security_from_error(e_PLOOKUP)
 
+    return levels
+
+def get_bits_of_security_from_error(error: float) -> int:
+    """
+    Returns the maximum k such that error <= 2^{-k}
+    """
+    return int(math.floor(-math.log2(error)))

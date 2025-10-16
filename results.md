@@ -1,4 +1,4 @@
-# soundcalc results
+#zkEVM soundcalc report
 
 Each row is a zkEVM proof system.
 Each column is a different component of the proof system.
@@ -19,12 +19,12 @@ The cell values are the bits of security for each such component.
 - Trace length (H): 2^21
 - Batching: Powers
 
-Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
---- | --- | --- | --- | --- | --- | --- | --- | --- | ---
-UDR | 33 | 92 | 92 | **33** | 33 | 115 | 100 | 98 | 96
-JBR | 31 | 39 | **31** | 47 | 31 | 110 | 95 | 98 | 96
-CBR | 72 | 86 | 78 | 86 | 78 | 88 | **72** | 98 | 96
-TPR | 96 | — | 123 | 100 | 99 | — | — | 98 | **96**
+| regime | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI query phase | PLONK | PLOOKUP | total |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| unique_decoding | 115 | 100 | 92 | 96 | 96 | 96 | 96 | 33 | 98 | 96 | 33 |
+| johnson_bound | 110 | 95 | 39 | 90 | 90 | 90 | 90 | 47 | 98 | 96 | 39 |
+| capacity_bound | 88 | 72 | 86 | 90 | 90 | 90 | 90 | 86 | 98 | 96 | 72 |
+| best attack | — | — | — | — | — | — | — | — | — | — | 95 |
 
 ## miden
 
@@ -36,12 +36,12 @@ TPR | 96 | — | 123 | 100 | 99 | — | — | 98 | **96**
 - Trace length (H): 2^18
 - Batching: Powers
 
-Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
---- | --- | --- | --- | --- | --- | --- | --- | --- | ---
-UDR | 38 | 100 | 100 | **38** | 38 | 121 | 106 | 106 | 105
-JBR | 41 | 48 | **41** | 55 | 41 | 115 | 101 | 106 | 105
-CBR | 81 | 93 | 86 | 83 | 83 | 96 | **81** | 106 | 105
-TPR | 96 | — | 127 | **97** | 96 | — | — | 106 | 105
+| regime | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI commit round 6 | FRI commit round 7 | FRI query phase | PLONK | PLOOKUP | total |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| unique_decoding | 121 | 106 | 100 | 105 | 105 | 105 | 105 | 105 | 105 | 105 | 38 | 106 | 105 | 38 |
+| johnson_bound | 115 | 101 | 48 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 55 | 106 | 105 | 48 |
+| capacity_bound | 96 | 81 | 93 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 83 | 106 | 105 | 81 |
+| best attack | — | — | — | — | — | — | — | — | — | — | — | — | — | 96 |
 
 ## ZisK
 
@@ -53,9 +53,9 @@ TPR | 96 | — | 127 | **97** | 96 | — | — | 106 | 105
 - Trace length (H): 2^22
 - Batching: Powers
 
-Regime | Final | Proximity_gaps | FRI_commit | FRI_query | FRI_final | ALI | DEEP | PLONK | PLOOKUP
---- | --- | --- | --- | --- | --- | --- | --- | --- | ---
-UDR | 53 | 162 | 161 | **53** | 53 | 185 | 167 | 166 | 164
-JBR | 58 | 111 | 105 | **58** | 58 | 181 | 163 | 166 | 164
-CBR | 110 | 157 | 151 | **110** | 110 | 158 | 140 | 166 | 164
-TPR | 127 | — | 191 | **128** | 128 | — | — | 166 | 164
+| regime | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI query phase | PLONK | PLOOKUP | total |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| unique_decoding | 185 | 167 | 162 | 165 | 165 | 165 | 165 | 165 | 53 | 166 | 164 | 53 |
+| johnson_bound | 181 | 163 | 111 | 159 | 159 | 159 | 159 | 159 | 58 | 166 | 164 | 58 |
+| capacity_bound | 158 | 140 | 157 | 159 | 159 | 159 | 159 | 159 | 110 | 166 | 164 | 110 |
+| best attack | — | — | — | — | — | — | — | — | — | — | — | 127 |
