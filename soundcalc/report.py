@@ -5,6 +5,8 @@ from __future__ import annotations
 import math
 from typing import Dict, Any, List, Tuple
 
+from soundcalc.common.utils import KIB
+
 
 
 def build_markdown_report(sections) -> str:
@@ -47,6 +49,11 @@ def build_markdown_report(sections) -> str:
             lines.append(f"- Batching: Powers")
         else:
             lines.append(f"- Batching: Affine")
+        lines.append("")
+
+        # Proof size
+        proof_size_kib = zkevm_params.proof_size_bits // KIB
+        lines.append(f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
         lines.append("")
 
         # Show results

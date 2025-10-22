@@ -4,6 +4,8 @@ from ..zkevms.zkevm import zkEVMParams
 
 import math
 
+KIB = (1024 * 8) # Kilobytes
+
 def get_rho_plus(H: int, D: float, max_combo: int) -> float:
     """Compute rho+. See page 16 of Ha22"""
     # XXX Should this be (H + 2) / D? This part is cryptic in [Ha22]
