@@ -59,3 +59,8 @@ BABYBEAR_5 = FieldParams(
 )
 
 
+def field_element_size_bits(field: FieldParams) -> int:
+    """
+    Returns the size of a field element in bits.
+    """
+    return math.ceil(math.log2(field.p)) * field.field_extension_degree

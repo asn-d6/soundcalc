@@ -49,8 +49,11 @@ class MidenPreset:
         # The RECURSIVE_96_BITS config uses algebraic batching
         power_batching = True
 
+        hash_size_bits = 256 # TODO: check if that is actually true
+
         cfg = zkEVMConfig(
             name="miden",
+            hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
             field=field,

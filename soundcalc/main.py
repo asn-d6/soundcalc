@@ -1,7 +1,7 @@
 from __future__ import annotations
 import json
 
-from soundcalc.common.utils import get_proof_system_levels
+from soundcalc.common.utils import KIB, get_proof_system_levels
 from soundcalc.regimes.best_attack import best_attack_security
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
@@ -63,7 +63,11 @@ def print_summary_for_zkevm(zkevm_params, results: dict[str, dict]) -> None:
     Print a summary of security results for a single zkEVM.
     """
     print(f"zkEVM: {zkevm_params.name}")
+    proof_size_kib = zkevm_params.proof_size_bits // KIB
+    print(f"    proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
     print(json.dumps(results, indent=4))
+    print("")
+    print("")
 
 
 def main() -> None:
