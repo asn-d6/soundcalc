@@ -32,8 +32,10 @@ def get_proof_system_levels(L_plus: float, params: zkEVMParams):
         / (params.F - params.trace_length - params.D)
     )
 
-    e_PLONK = params.field_extension_degree * 5 * params.trace_length / params.F  # XXX this 5 is a RISC0 magic number n_{σ_{mem}} == 5.
-    e_PLOOKUP = params.field_extension_degree * 15 * params.trace_length / params.F  # XXX this 15 is a RISC0 magic number n_{σ_{bytes}} == 15.
+    # e_PLONK = params.field_extension_degree * 5 * params.trace_length / params.F  # XXX this 5 is a RISC0 magic number n_{σ_{mem}} == 5.
+    # e_PLOOKUP = params.field_extension_degree * 15 * params.trace_length / params.F  # XXX this 15 is a RISC0 magic number n_{σ_{bytes}} == 15.
+    e_PLONK = 10 * (params.AIR_max_degree - 2) * params.trace_length / (params.F * params.field_extension_degree)  # to check with RISC0 team
+    e_PLOOKUP = 30 * (params.AIR_max_degree - 1) * params.trace_length / (params.F * params.field_extension_degree)  # to check with RISC0 team
 
     levels = {}
     levels["ALI"] = get_bits_of_security_from_error(e_ALI)
