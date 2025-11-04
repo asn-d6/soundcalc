@@ -21,7 +21,7 @@ As a result, the calculator generates / updates [`results.md`](results.md).
 We currently support the following zkEVMs:
 - RISC0
 - Miden
-- Zisk
+- ZisK
 
 We support the following security regimes (see below for explanation of regimes):
 - Unique Decoding Regime (UDR)

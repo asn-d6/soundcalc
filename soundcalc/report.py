@@ -10,7 +10,7 @@ from typing import Dict, Any, List, Tuple
 def build_markdown_report(sections) -> str:
 
     lines: list[str] = []
-    lines.append("#zkEVM soundcalc report")
+    lines.append("# zkEVM soundcalc report")
     lines.append("")
     lines.append("Each row is a zkEVM proof system.\nEach column is a different component of the proof system.\nThe cell values are the bits of security for each such component.")
     lines.append("")
@@ -38,8 +38,12 @@ def build_markdown_report(sections) -> str:
         if hasattr(zkevm_params, 'field_extension_degree'):
             if zkevm_params.field_extension_degree == 2:
                 field_name = "Goldilocks²"
+            elif zkevm_params.field_extension_degree == 3:
+                field_name = "Goldilocks³"
             elif zkevm_params.field_extension_degree == 4:
                 field_name = "BabyBear⁴"
+            elif zkevm_params.field_extension_degree == 5:
+                field_name = "BabyBear⁵"
         lines.append(f"- Field: {field_name}")
         lines.append(f"- Rate (ρ): {zkevm_params.rho}")
         lines.append(f"- Trace length (H): 2^{zkevm_params.h}")
