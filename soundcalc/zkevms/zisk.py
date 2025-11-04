@@ -10,7 +10,7 @@ class ZiskPreset:
         """
         Populate a zkEVMConfig instance with zkVM parameters.
 
-        For Zisk, we populate the trace parameters from its constraint description:
+        For ZisK, we populate the trace parameters from its constraint description:
             https://github.com/0xPolygonHermez/zisk/blob/main/pil/zisk.pil
 
         The rest of the parameters are adapted from the "eSTARK: Extending STARKs with Arguments" paper:

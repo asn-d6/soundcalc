@@ -1,4 +1,4 @@
-#zkEVM soundcalc report
+# zkEVM soundcalc report
 
 Each row is a zkEVM proof system.
 Each column is a different component of the proof system.
@@ -48,7 +48,7 @@ The cell values are the bits of security for each such component.
 **Parameters:**
 - Number of queries: 128
 - Grinding (bits): 0
-- Field: Unknown
+- Field: Goldilocks³
 - Rate (ρ): 0.5
 - Trace length (H): 2^22
 - Batching: Powers
