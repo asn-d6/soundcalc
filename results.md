@@ -19,6 +19,8 @@ The cell values are the bits of security for each such component.
 - Trace length (H): 2^21
 - Batching: Powers
 
+<b>Proof Size Estimate:</b> 223 KiB, where 1 KiB = 1024 bytes
+
 | regime | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI query phase | PLONK | PLOOKUP | total |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | unique_decoding | 115 | 100 | 92 | 96 | 96 | 96 | 96 | 33 | 98 | 96 | 33 |
@@ -36,6 +38,8 @@ The cell values are the bits of security for each such component.
 - Trace length (H): 2^18
 - Batching: Powers
 
+<b>Proof Size Estimate:</b> 114 KiB, where 1 KiB = 1024 bytes
+
 | regime | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI commit round 6 | FRI commit round 7 | FRI query phase | PLONK | PLOOKUP | total |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | unique_decoding | 121 | 106 | 100 | 105 | 105 | 105 | 105 | 105 | 105 | 105 | 38 | 106 | 105 | 38 |
@@ -52,6 +56,8 @@ The cell values are the bits of security for each such component.
 - Rate (ρ): 0.5
 - Trace length (H): 2^22
 - Batching: Powers
+
+<b>Proof Size Estimate:</b> 1352 KiB, where 1 KiB = 1024 bytes
 
 | regime | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI query phase | PLONK | PLOOKUP | total |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |

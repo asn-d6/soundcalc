@@ -38,8 +38,11 @@ class Risc0Preset:
         # Risc0 uses batching with coefficients r^0, r^1, r^2, ...
         power_batching = True
 
+        hash_size_bits = 256 # TODO: check if that is actually true
+
         cfg = zkEVMConfig(
             name="risc0",
+            hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
             field=field,
