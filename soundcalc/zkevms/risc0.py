@@ -38,6 +38,10 @@ class Risc0Preset:
         # Risc0 uses batching with coefficients r^0, r^1, r^2, ...
         power_batching = True
 
+        # XXX In the future we should support e_PLONK and e_PLOOKUP again
+        # e_PLONK = 10 * (params.AIR_max_degree - 2) * params.trace_length / (params.F * params.field_extension_degree)
+        # e_PLOOKUP = 30 * (params.AIR_max_degree - 1) * params.trace_length / (params.F * params.field_extension_degree)
+
         cfg = zkEVMConfig(
             name="risc0",
             rho=rho,

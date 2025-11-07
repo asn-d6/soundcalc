@@ -1,7 +1,7 @@
 from __future__ import annotations
 import json
 
-from soundcalc.common.utils import get_proof_system_levels
+from soundcalc.common.utils import get_DEEP_ALI_errors
 from soundcalc.regimes.best_attack import best_attack_security
 from soundcalc.zkevms.risc0 import Risc0Preset
 from soundcalc.zkevms.miden import MidenPreset
@@ -20,7 +20,7 @@ def get_rbr_levels_for_zkevm_and_regime(regime, params) -> dict[str, int]:
     fri_levels = regime.get_rbr_levels(params)
     list_size = regime.get_bound_on_list_size(params)
 
-    proof_system_levels = get_proof_system_levels(list_size, params)
+    proof_system_levels = get_DEEP_ALI_errors(list_size, params)
 
     total = min(list(fri_levels.values()) + list(proof_system_levels.values()))
 

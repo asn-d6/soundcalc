@@ -2,8 +2,7 @@ from __future__ import annotations
 
 
 from ..zkevms.zkevm import zkEVMParams
-from typing import Any
-from ..common.utils import get_bits_of_security_from_error, get_proof_system_levels
+from ..common.utils import get_bits_of_security_from_error
 
 
 def best_attack_security(params: zkEVMParams) -> int:
@@ -25,12 +24,7 @@ def best_attack_security(params: zkEVMParams) -> int:
     # Add bits of security from grinding (see section 6.3 in ethSTARK)
     query_phase_error_with_grinding = query_phase_error_without_grinding * 2 ** (-params.grinding_query_phase)
 
-    # Compute proof system errors, but ignore ALI/DEEP under the toy problem regime
-    levels_proof_system = get_proof_system_levels(params.num_polys, params)
-    error_plonk = 2**(-levels_proof_system["PLONK"])
-    error_plookup = 2**(-levels_proof_system["PLOOKUP"])
-
-    final_error = commit_phase_error + query_phase_error_with_grinding + error_plonk + error_plookup
+    final_error = commit_phase_error + query_phase_error_with_grinding
     final_level = get_bits_of_security_from_error(final_error)
 
     return final_level
