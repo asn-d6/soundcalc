@@ -15,7 +15,7 @@ class UniqueDecodingRegime(FRIRegime):
     """
 
     def identifier(self) -> str:
-        return "unique_decoding"
+        return "UDR"
 
     def get_bound_on_list_size(self, params: zkEVMParams) -> int:
         # For unique decoding, list size is naturally 1

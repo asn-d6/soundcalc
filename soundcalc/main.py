@@ -77,9 +77,9 @@ def main() -> None:
     sections = {}
 
     zkevms = [
-        Risc0Preset.default(),
-        MidenPreset.default(),
         ZiskPreset.default(),
+        MidenPreset.default(),
+        Risc0Preset.default(),
     ]
 
     security_regimes = [

@@ -46,7 +46,7 @@ def build_markdown_report(sections) -> str:
                 field_name = "BabyBear⁵"
         lines.append(f"- Field: {field_name}")
         lines.append(f"- Rate (ρ): {zkevm_params.rho}")
-        lines.append(f"- Trace length (H): 2^{zkevm_params.h}")
+        lines.append(f"- Trace length (H): $2^{{{zkevm_params.h}}}$")
         if zkevm_params.power_batching:
             lines.append(f"- Batching: Powers")
         else:
@@ -60,7 +60,12 @@ def build_markdown_report(sections) -> str:
         for v in results.values():
             if isinstance(v, dict):
                 columns.update(v.keys())
-        columns = ["regime"] + sorted(columns)  # 'row' will be the first column
+
+        ordered_columns: list[str] = ["regime"]
+        if "total" in columns:
+            ordered_columns.append("total")
+        ordered_columns.extend(sorted(col for col in columns if col != "total"))
+        columns = ordered_columns
 
         # --- Build Markdown header ---
         md_table = "| " + " | ".join(columns) + " |\n"
@@ -73,8 +78,12 @@ def build_markdown_report(sections) -> str:
                 for col in columns[1:]:
                     row_values.append(str(row_data.get(col, "—")))
             else:
-                # Non-dict value (e.g. 'ethstark toy problem')
-                row_values +=  ["—"] * (len(columns) - 2) + [str(row_data)]
+                # Non-dict value sits under the 'total' column when present.
+                for col in columns[1:]:
+                    if col == "total":
+                        row_values.append(str(row_data))
+                    else:
+                        row_values.append("—")
             md_table += "| " + " | ".join(row_values) + " |\n"
 
         lines.append(md_table)

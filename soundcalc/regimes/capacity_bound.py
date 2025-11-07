@@ -22,7 +22,7 @@ class CapacityBoundRegime(FRIRegime):
     """
 
     def identifier(self) -> str:
-        return "capacity_bound"
+        return "CBR"
 
 
     def get_bound_on_list_size(self, params: zkEVMParams) -> int:

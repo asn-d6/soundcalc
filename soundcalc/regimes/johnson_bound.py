@@ -19,7 +19,7 @@ class JohnsonBoundRegime(FRIRegime):
     """
 
     def identifier(self) -> str:
-        return "johnson_bound"
+        return "JBR"
 
     def get_bound_on_list_size(self, params: zkEVMParams) -> int:
         """
