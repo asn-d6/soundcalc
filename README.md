@@ -26,7 +26,6 @@ We currently support the following zkEVMs:
 We support the following security regimes (see below for explanation of regimes):
 - Unique Decoding Regime (UDR)
 - Johnson Bound Regime (JBR)
-- Capacity Bound Regime (CBR)
 
 In addition, we give a number based on the ethstark toy problem conjecture for reference.
 
@@ -40,8 +39,6 @@ Depending on the value of `θ`, the analysis falls into different regimes:
 
 - **UDR (Unique Decoding Regime):** $\theta  \leq  (1 - \rho)/2$, where $\rho$ is the code rate.
 - **JBR (Johnson Bound Regime):** $(1 - \rho)/2 < \theta < 1 - \sqrt{\rho}$.
-- **CBR (Capacity Bound Regime):** Roughly $\theta < 1 - \rho$.
-  *Note: The analysis in this regime depends on unproven conjectures about Reed–Solomon codes.*
 
 Crucially, `θ` is not an input to the prover or verifier code—it is only used in the *soundness analysis*.
 All three regimes therefore apply to the *same zkEVM instance* without any change.
