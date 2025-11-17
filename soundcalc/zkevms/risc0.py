@@ -42,8 +42,11 @@ class Risc0Preset:
         # e_PLONK = 10 * (params.AIR_max_degree - 2) * params.trace_length / (params.F * params.field_extension_degree)
         # e_PLOOKUP = 30 * (params.AIR_max_degree - 1) * params.trace_length / (params.F * params.field_extension_degree)
 
+        hash_size_bits = 256 # TODO: check if that is actually true
+
         cfg = zkEVMConfig(
             name="risc0",
+            hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
             field=field,

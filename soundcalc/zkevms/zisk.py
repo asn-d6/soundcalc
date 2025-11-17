@@ -42,8 +42,11 @@ class ZiskPreset:
 
         max_combo = 3
 
+        hash_size_bits = 256 # TODO: check if that is actually true
+
         cfg = zkEVMConfig(
             name="ZisK",
+            hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,
             field=field,
@@ -58,5 +61,3 @@ class ZiskPreset:
             grinding_query_phase=0,
         )
         return zkEVMParams(cfg)
-
-
