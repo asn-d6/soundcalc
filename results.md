@@ -24,7 +24,7 @@ The cell values are the bits of security for each such component.
 | regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | UDR | 53 | 185 | 167 | 162 | 165 | 165 | 165 | 165 | 165 | 53 |
-| JBR | 58 | 181 | 163 | 111 | 159 | 159 | 159 | 159 | 159 | 58 |
+| JBR | 58 | 181 | 163 | 142 | 159 | 159 | 159 | 159 | 159 | 58 |
 | best attack | 128 | — | — | — | — | — | — | — | — | — |
 
 ## miden
@@ -42,7 +42,7 @@ The cell values are the bits of security for each such component.
 | regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI commit round 5 | FRI commit round 6 | FRI commit round 7 | FRI query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | UDR | 38 | 121 | 106 | 100 | 105 | 105 | 105 | 105 | 105 | 105 | 105 | 38 |
-| JBR | 48 | 115 | 101 | 48 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 55 |
+| JBR | 55 | 115 | 101 | 77 | 98 | 98 | 98 | 98 | 98 | 98 | 98 | 55 |
 | best attack | 96 | — | — | — | — | — | — | — | — | — | — | — |
 
 ## risc0
@@ -60,5 +60,5 @@ The cell values are the bits of security for each such component.
 | regime | total | ALI | DEEP | FRI batching round | FRI commit round 1 | FRI commit round 2 | FRI commit round 3 | FRI commit round 4 | FRI query phase |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | UDR | 33 | 115 | 100 | 92 | 96 | 96 | 96 | 96 | 33 |
-| JBR | 39 | 110 | 95 | 39 | 90 | 90 | 90 | 90 | 47 |
+| JBR | 47 | 110 | 95 | 70 | 90 | 90 | 90 | 90 | 47 |
 | best attack | 99 | — | — | — | — | — | — | — | — |
