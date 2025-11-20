@@ -95,7 +95,7 @@ class FRIBasedVM(zkVM):
     """
     def __init__(self, config: FRIBasedVMConfig):
         """
-        Given a zkEVMConfig, compute all the parameters relevant for the zkEVM.
+        Given a config, compute all the parameters relevant for the zkVM.
         """
         # Copy the parameters over (also see docs just above)
         self.name = config.name
