@@ -30,6 +30,10 @@ def build_markdown_report(sections) -> str:
         lines.append("")
 
         (zkevm_params, results) = sections[zkevm]
+        display_results: dict[str, Any] = {
+            name: data.copy() if isinstance(data, dict) else data
+            for name, data in results.items()
+        }
 
         # Add parameter information
         lines.append(f"**Parameters:**")
@@ -64,7 +68,7 @@ def build_markdown_report(sections) -> str:
 
         # --- Get all column headers ---
         columns = set()
-        for v in results.values():
+        for v in display_results.values():
             if isinstance(v, dict):
                 columns.update(v.keys())
 
@@ -74,12 +78,54 @@ def build_markdown_report(sections) -> str:
         ordered_columns.extend(sorted(col for col in columns if col != "total"))
         columns = ordered_columns
 
+        fri_commit_columns = [
+            col for col in columns if col.startswith("FRI commit round ")
+        ]
+
+        def should_collapse_commit_columns() -> bool:
+            if len(fri_commit_columns) <= 1:
+                return False
+
+            def row_has_single_value(row: dict[str, Any]) -> bool:
+                values = [row.get(col) for col in fri_commit_columns if col in row]
+                values = [value for value in values if value is not None]
+                if not values:
+                    return True
+                first_value = values[0]
+                return all(value == first_value for value in values)
+
+            for row_data in display_results.values():
+                if isinstance(row_data, dict) and not row_has_single_value(row_data):
+                    return False
+            return True
+
+        if should_collapse_commit_columns():
+            first_commit_idx = columns.index(fri_commit_columns[0])
+            for col in fri_commit_columns:
+                columns.remove(col)
+
+            merged_label = f"FRI commit rounds (×{len(fri_commit_columns)})"
+            columns.insert(first_commit_idx, merged_label)
+
+            for row_name, row_data in display_results.items():
+                if not isinstance(row_data, dict):
+                    continue
+                merged_value = None
+                for col in fri_commit_columns:
+                    if col in row_data:
+                        merged_value = row_data[col]
+                        break
+                if merged_value is not None:
+                    row_data[merged_label] = merged_value
+                for col in fri_commit_columns:
+                    row_data.pop(col, None)
+
         # --- Build Markdown header ---
         md_table = "| " + " | ".join(columns) + " |\n"
         md_table += "| " + " | ".join(["---"] * len(columns)) + " |\n"
 
         # --- Build each row ---
-        for row_name, row_data in results.items():
+        for row_name, row_data in display_results.items():
             row_values = [row_name]
             if isinstance(row_data, dict):
                 for col in columns[1:]:
