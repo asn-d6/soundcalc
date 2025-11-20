@@ -6,6 +6,7 @@ from typing import Protocol, Mapping, Any
 from math import log2
 
 from soundcalc.common.utils import get_bits_of_security_from_error
+from soundcalc.regimes.best_attack import best_attack_security
 from soundcalc.regimes.fri_regime import FRIParameters
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
@@ -222,5 +223,7 @@ class FRIBasedVM(zkVM):
             total = min(list(fri_levels.values()) + list(proof_system_levels.values()))
 
             result[id] = fri_levels | proof_system_levels | {"total": total}
+
+        result["best attack"] = best_attack_security(fri_parameters)
 
         return result

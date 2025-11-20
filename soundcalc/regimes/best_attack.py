@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from soundcalc.zkvms.fri_based_vm import FRIBasedVM
+from soundcalc.regimes.fri_regime import FRIParameters
 
 
 from ..common.utils import get_bits_of_security_from_error
 
 
-def best_attack_security(params: FRIBasedVM) -> int:
+def best_attack_security(params: FRIParameters) -> int:
     """
     Security level based on the best known attack.
 
