@@ -7,8 +7,7 @@ C1 = 1.0
 C2 = 1.0
 C3 = 1.0 # List size related
 
-from .fri_regime import FRIRegime
-from ..zkevms.zkevm import zkEVMParams
+from .fri_regime import FRIParameters, FRIRegime
 from soundcalc.common.fri import get_johnson_parameter_m
 from ..common.utils import get_rho_plus
 
@@ -25,7 +24,7 @@ class CapacityBoundRegime(FRIRegime):
         return "CBR"
 
 
-    def get_bound_on_list_size(self, params: zkEVMParams) -> int:
+    def get_bound_on_list_size(self, params: FRIParameters) -> int:
         """
         Returns an upper bound on the list size of this regime, i.e., the number of codewords
         a function is close to.
@@ -44,7 +43,7 @@ class CapacityBoundRegime(FRIRegime):
         return math.ceil((params.D / eta_plus) ** C3)
 
 
-    def get_theta(self, params: zkEVMParams) -> float:
+    def get_theta(self, params: FRIParameters) -> float:
         """
         Returns the theta for the query phase error.
         """
@@ -53,7 +52,7 @@ class CapacityBoundRegime(FRIRegime):
         return theta
 
 
-    def get_batching_error(self, params: zkEVMParams) -> float:
+    def get_batching_error(self, params: FRIParameters) -> float:
         """
         Returns the error for the FRI batching step for this regime.
         """
@@ -64,14 +63,14 @@ class CapacityBoundRegime(FRIRegime):
         # Note: the errors for correlated agreement in the following two cases differ,
         # which is related to the batching method:
         #
-        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_polys-1}
+        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_functions-1}
         # This is what is called batching over parameterized curves in BCIKS20.
-        # Here, the error depends on num_polys (called l in BCIKS20), and we find
+        # Here, the error depends on num_functions (called l in BCIKS20), and we find
         # the error in Conjecture 8.4, second item.
         #
-        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_polys-1}
+        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_functions-1}
         # This is what is called batching over affine spaces in BCIKS20.
-        # Here, the error does not depend on num_polys (called l in BCIKS20), and we find
+        # Here, the error does not depend on num_functions (called l in BCIKS20), and we find
         # the error in Conjecture 8.4, first item.
         #
         # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
@@ -79,10 +78,10 @@ class CapacityBoundRegime(FRIRegime):
         term_two =  (params.D ** C2) / params.F
         error = term_one * term_two
         if params.power_batching:
-            error *= params.num_polys ** C2
+            error *= params.num_functions ** C2
         return error
 
-    def get_commit_phase_error(self, params: zkEVMParams) -> float:
+    def get_commit_phase_error(self, params: FRIParameters) -> float:
         """
         Returns the error for the FRI commit phase for this regime.
         """
@@ -90,7 +89,7 @@ class CapacityBoundRegime(FRIRegime):
         # It is just copied from JBR.
         # TODO Find a better formula for CBR.
         m = self._get_m()
-        error = (2 * m + 1) * (params.D + 1) * params.FRI_folding_factor / (math.sqrt(params.rho) * params.F)
+        error = (2 * m + 1) * (params.D + 1) * params.folding_factor / (math.sqrt(params.rho) * params.F)
         return error
 
 

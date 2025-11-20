@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from .fri_regime import FRIRegime
-from ..zkevms.zkevm import zkEVMParams
+from .fri_regime import FRIParameters, FRIRegime
 from typing import Any
 from ..common.utils import get_rho_plus
 from soundcalc.common.fri import (
@@ -21,7 +20,7 @@ class JohnsonBoundRegime(FRIRegime):
     def identifier(self) -> str:
         return "JBR"
 
-    def get_bound_on_list_size(self, params: zkEVMParams) -> int:
+    def get_bound_on_list_size(self, params: FRIParameters) -> int:
         """
         Returns an upper bound on the list size of this regime, i.e., the number of codewords
         a function is close to.
@@ -46,7 +45,7 @@ class JohnsonBoundRegime(FRIRegime):
         #  RISC0=35, Miden=64
         return (m_plus + 0.5) / math.sqrt(r_plus)
 
-    def get_theta(self, params: zkEVMParams) -> float:
+    def get_theta(self, params: FRIParameters) -> float:
         """
         Returns the theta for the query phase error.
         """
@@ -55,7 +54,7 @@ class JohnsonBoundRegime(FRIRegime):
         return theta
 
 
-    def get_batching_error(self, params: zkEVMParams) -> float:
+    def get_batching_error(self, params: FRIParameters) -> float:
         """
         Returns the error for the FRI batching step for this regime.
         """
@@ -63,14 +62,14 @@ class JohnsonBoundRegime(FRIRegime):
         # Note: the errors for correlated agreement in the following two cases differ,
         # which is related to the batching method:
         #
-        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_polys-1}
+        # Case 1: we batch with randomness r^0, r^1, ..., r^{num_functions-1}
         # This is what is called batching over parameterized curves in BCIKS20.
-        # Here, the error depends on num_polys (called l in BCIKS20), and we find
+        # Here, the error depends on num_functions (called l in BCIKS20), and we find
         # the error in Theorem 6.2.
         #
-        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_polys-1}
+        # Case 2: we batch with randomness r_0 = 1, r_1, r_2, r_{num_functions-1}
         # This is what is called batching over affine spaces in BCIKS20.
-        # Here, the error does not depend on num_polys (called l in BCIKS20), and we find
+        # Here, the error does not depend on num_functions (called l in BCIKS20), and we find
         # the error in Theorem 1.6.
         #
         # Then easiest way to see the difference is to compare Theorems 1.5 and 1.6.
@@ -79,10 +78,10 @@ class JohnsonBoundRegime(FRIRegime):
         rho = params.rho
         error = ((m + 0.5) ** 5) / (3 * (rho ** 1.5)) * (params.D) / params.F
         if params.power_batching:
-            error *= params.num_polys
+            error *= params.num_functions
         return error
 
-    def get_commit_phase_error(self, params: zkEVMParams) -> float:
+    def get_commit_phase_error(self, params: FRIParameters) -> float:
         """
         Returns the error for the FRI commit phase for this regime.
         """
@@ -95,7 +94,7 @@ class JohnsonBoundRegime(FRIRegime):
 
         # TODO: check this formula carefully
         m = self._get_m()
-        error = (2 * m + 1) * (params.D + 1) * params.FRI_folding_factor / (math.sqrt(params.rho) * params.F)
+        error = (2 * m + 1) * (params.D + 1) * params.folding_factor / (math.sqrt(params.rho) * params.F)
         return error
 
 

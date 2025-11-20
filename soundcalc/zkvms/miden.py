@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from .zkevm import zkEVMConfig, zkEVMParams
+from soundcalc.zkvms.fri_based_vm import FRIBasedVM, FRIBasedVMConfig
+
 from ..common.fields import *
 
 
@@ -51,7 +52,7 @@ class MidenPreset:
 
         hash_size_bits = 256 # TODO: check if that is actually true
 
-        cfg = zkEVMConfig(
+        cfg = FRIBasedVMConfig(
             name="miden",
             hash_size_bits=hash_size_bits,
             rho=rho,
@@ -67,4 +68,4 @@ class MidenPreset:
             grinding_query_phase=grinding_query_phase,
             AIR_max_degree=AIR_max_degree,
         )
-        return zkEVMParams(cfg)
+        return FRIBasedVM(cfg)

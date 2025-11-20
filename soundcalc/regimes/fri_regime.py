@@ -1,12 +1,35 @@
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from typing import Optional, Dict, Any
 
 from soundcalc.common.fri import get_FRI_query_phase_error
 from soundcalc.common.utils import get_bits_of_security_from_error
 
-from ..zkevms.zkevm import zkEVMParams
+@dataclass(frozen=True)
+class FRIParameters:
+    """
+    Models the parameters that the FRI protocol has.
+    Note that this is different from FRI-based zkVM parameters,
+    as such a VM may have additional parameters.
+    """
+    hash_size_bits: int
+    field_size_bits: int
+    rho: float
+    D: int
+    F: float
+    power_batching: bool
+    num_functions: int
+    num_queries: int
+    witness_size: int
+    field_extension_degree: int
+    early_stop_degree: int
+    FRI_rounds_n: int
+    folding_factor: int
+    grinding_query_phase: int
+    trace_length: int
+    max_combo: int
 
 
 class FRIRegime:
@@ -22,32 +45,32 @@ class FRIRegime:
         raise NotImplementedError
 
 
-    def get_bound_on_list_size(self, params: zkEVMParams) -> int:
+    def get_bound_on_list_size(self, params: FRIParameters) -> int:
         """
         Returns an upper bound on the list size of this regime, i.e., the number of codewords
         a function is close to. For instance, this is 1 for the unique decoding regime.
         """
         raise NotImplementedError
 
-    def get_theta(self, params: zkEVMParams) -> float:
+    def get_theta(self, params: FRIParameters) -> float:
         """
         Returns the theta for the query phase error.
         """
         raise NotImplementedError
 
-    def get_batching_error(self, params: zkEVMParams) -> float:
+    def get_batching_error(self, params: FRIParameters) -> float:
         """
         Returns the error for the FRI batching step for this regime.
         """
         raise NotImplementedError
 
-    def get_commit_phase_error(self, params: zkEVMParams) -> float:
+    def get_commit_phase_error(self, params: FRIParameters) -> float:
         """
         Returns the error for the FRI commit phase for this regime.
         """
         raise NotImplementedError
 
-    def get_rbr_levels(self, params: zkEVMParams) -> dict[str, int]:
+    def get_rbr_levels(self, params: FRIParameters) -> dict[str, int]:
         """
         Returns a dictionary that contains the round-by-round soundness levels.
         It maps from a label that explains which round it is for to an integer.

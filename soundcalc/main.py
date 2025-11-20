@@ -1,14 +1,16 @@
 from __future__ import annotations
 import json
 
-from soundcalc.common.utils import KIB, get_DEEP_ALI_errors
+from soundcalc.common.utils import KIB
 from soundcalc.regimes.best_attack import best_attack_security
-from soundcalc.zkevms.risc0 import Risc0Preset
-from soundcalc.zkevms.miden import MidenPreset
-from soundcalc.zkevms.zisk import ZiskPreset
+from soundcalc.zkvms.fri_based_vm import get_DEEP_ALI_errors
+from soundcalc.zkvms.risc0 import Risc0Preset
+from soundcalc.zkvms.miden import MidenPreset
+from soundcalc.zkvms.zisk import ZiskPreset
 from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
 from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_markdown_report
+from soundcalc.zkvms.zkvm import zkVM
 
 
 def get_rbr_levels_for_zkevm_and_regime(regime, params) -> dict[str, int]:
@@ -57,47 +59,45 @@ def generate_and_save_md_report(sections) -> None:
     print(f"wrote :: {md_path}")
 
 
-def print_summary_for_zkevm(zkevm_params, results: dict[str, dict]) -> None:
+def print_summary_for_zkvm(zkvm: zkVM) -> None:
     """
-    Print a summary of security results for a single zkEVM.
+    Print a summary of security results for a single zkVM.
     """
-    print(f"zkEVM: {zkevm_params.name}")
-    proof_size_kib = zkevm_params.proof_size_bits // KIB
+    print(f"zkVM: {zkvm.get_name()}")
+    proof_size_kib = zkvm.get_proof_size_bits() // KIB
+    print("")
     print(f"    proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
-    print(json.dumps(results, indent=4))
+    print("")
+    print(f"    parameters: \n {zkvm.get_parameters()}")
+    print("")
+    print(f"    security levels (rbr): \n {json.dumps(zkvm.get_security_levels(), indent=4)}")
     print("")
     print("")
-
+    print("")
+    print("")
 
 def main() -> None:
     """
     Main entry point for soundcalc
 
-    Analyze multiple zkEVMs across different security regimes,
+    Analyze multiple zkVMs across different security regimes,
     generate reports, and save results to disk.
     """
-    # Data structure for compiling the markdown report
-    sections = {}
 
-    zkevms = [
+    # We consider the following zkVMs
+    zkvms = [
         ZiskPreset.default(),
         MidenPreset.default(),
         Risc0Preset.default(),
     ]
 
-    security_regimes = [
-        UniqueDecodingRegime(),
-        JohnsonBoundRegime(),
-    ]
-
-    # Analyze each zkEVM across all security regimes
-    for zkevm_params in zkevms:
-        results = compute_security_for_zkevm(security_regimes, zkevm_params)
-        print_summary_for_zkevm(zkevm_params, results)
-        sections[zkevm_params.name] = (zkevm_params, results)
+    # Analyze each zkVM
+    for zkvm in zkvms:
+        print_summary_for_zkvm(zkvm)
 
     # Generate and save markdown report
-    generate_and_save_md_report(sections)
+    # TODO. re-integrate
+    # generate_and_save_md_report(sections)
 
 if __name__ == "__main__":
     main()
