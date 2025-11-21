@@ -19,7 +19,7 @@ The cell values are the bits of security for each such component.
 - Trace length (H): $2^{22}$
 - Batching: Powers
 
-**Proof Size Estimate:** 1352 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 992 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×5) | FRI query phase |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -37,7 +37,7 @@ The cell values are the bits of security for each such component.
 - Trace length (H): $2^{18}$
 - Batching: Powers
 
-**Proof Size Estimate:** 114 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 175 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×7) | FRI query phase |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -55,7 +55,7 @@ The cell values are the bits of security for each such component.
 - Trace length (H): $2^{21}$
 - Batching: Powers
 
-**Proof Size Estimate:** 223 KiB, where 1 KiB = 1024 bytes
+**Proof Size Estimate:** 576 KiB, where 1 KiB = 1024 bytes
 
 | regime | total | ALI | DEEP | FRI batching round | FRI commit rounds (×4) | FRI query phase |
 | --- | --- | --- | --- | --- | --- | --- |

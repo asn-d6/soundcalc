@@ -2,13 +2,9 @@ from __future__ import annotations
 import json
 
 from soundcalc.common.utils import KIB
-from soundcalc.regimes.best_attack import best_attack_security
-from soundcalc.zkvms.fri_based_vm import get_DEEP_ALI_errors
 from soundcalc.zkvms.risc0 import Risc0Preset
 from soundcalc.zkvms.miden import MidenPreset
 from soundcalc.zkvms.zisk import ZiskPreset
-from soundcalc.regimes.johnson_bound import JohnsonBoundRegime
-from soundcalc.regimes.unique_decoding import UniqueDecodingRegime
 from soundcalc.report import build_markdown_report
 from soundcalc.zkvms.zkvm import zkVM
 
@@ -27,7 +23,7 @@ def generate_and_save_md_report(sections) -> None:
     print(f"wrote :: {md_path}")
 
 
-def print_summary_for_zkvm(zkvm: zkVM) -> None:
+def print_summary_for_zkvm(zkvm: zkVM, security_levels: dict | None = None) -> None:
     """
     Print a summary of security results for a single zkVM.
     """
@@ -41,7 +37,9 @@ def print_summary_for_zkvm(zkvm: zkVM) -> None:
     print("")
     print(f"parameters: \n {zkvm.get_parameter_summary()}")
     print("")
-    print(f"security levels (rbr): \n {json.dumps(zkvm.get_security_levels(), indent=4)}")
+    if security_levels is None:
+        security_levels = zkvm.get_security_levels()
+    print(f"security levels (rbr): \n {json.dumps(security_levels, indent=4)}")
     print("")
     print("")
     print("")
@@ -55,6 +53,8 @@ def main() -> None:
     generate reports, and save results to disk.
     """
 
+    sections: dict[str, tuple[zkVM, dict[str, dict]]] = {}
+
     # We consider the following zkVMs
     zkvms = [
         ZiskPreset.default(),
@@ -64,11 +64,12 @@ def main() -> None:
 
     # Analyze each zkVM
     for zkvm in zkvms:
-        print_summary_for_zkvm(zkvm)
+        security_levels = zkvm.get_security_levels()
+        print_summary_for_zkvm(zkvm, security_levels)
+        sections[zkvm.get_name()] = (zkvm, security_levels)
 
     # Generate and save markdown report
-    # TODO. re-integrate
-    # generate_and_save_md_report(sections)
+    generate_and_save_md_report(sections)
 
 if __name__ == "__main__":
     main()

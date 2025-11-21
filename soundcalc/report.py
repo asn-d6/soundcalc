@@ -29,7 +29,7 @@ def build_markdown_report(sections) -> str:
         lines.append(f"## {zkevm}")
         lines.append("")
 
-        (zkevm_params, results) = sections[zkevm]
+        (zkvm_obj, results) = sections[zkevm]
         display_results: dict[str, Any] = {
             name: data.copy() if isinstance(data, dict) else data
             for name, data in results.items()
@@ -37,30 +37,30 @@ def build_markdown_report(sections) -> str:
 
         # Add parameter information
         lines.append(f"**Parameters:**")
-        lines.append(f"- Number of queries: {zkevm_params.num_queries}")
-        lines.append(f"- Grinding (bits): {zkevm_params.grinding_query_phase}")
+        lines.append(f"- Number of queries: {zkvm_obj.num_queries}")
+        lines.append(f"- Grinding (bits): {zkvm_obj.grinding_query_phase}")
         # Get field name from the field extension degree and base field
         field_name = "Unknown"
-        if hasattr(zkevm_params, 'field_extension_degree'):
-            if zkevm_params.field_extension_degree == 2:
+        if hasattr(zkvm_obj, 'field_extension_degree'):
+            if zkvm_obj.field_extension_degree == 2:
                 field_name = "Goldilocks²"
-            elif zkevm_params.field_extension_degree == 3:
+            elif zkvm_obj.field_extension_degree == 3:
                 field_name = "Goldilocks³"
-            elif zkevm_params.field_extension_degree == 4:
+            elif zkvm_obj.field_extension_degree == 4:
                 field_name = "BabyBear⁴"
-            elif zkevm_params.field_extension_degree == 5:
+            elif zkvm_obj.field_extension_degree == 5:
                 field_name = "BabyBear⁵"
         lines.append(f"- Field: {field_name}")
-        lines.append(f"- Rate (ρ): {zkevm_params.rho}")
-        lines.append(f"- Trace length (H): $2^{{{zkevm_params.h}}}$")
-        if zkevm_params.power_batching:
+        lines.append(f"- Rate (ρ): {zkvm_obj.rho}")
+        lines.append(f"- Trace length (H): $2^{{{zkvm_obj.h}}}$")
+        if zkvm_obj.power_batching:
             lines.append(f"- Batching: Powers")
         else:
             lines.append(f"- Batching: Affine")
         lines.append("")
 
         # Proof size
-        proof_size_kib = zkevm_params.proof_size_bits // KIB
+        proof_size_kib = zkvm_obj.get_proof_size_bits() // KIB
         lines.append(f"**Proof Size Estimate:** {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
         lines.append("")
 
