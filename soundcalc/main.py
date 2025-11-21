@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 
 from soundcalc.common.utils import KIB
+from soundcalc.zkvms.dummy_whir import DummyWHIRPreset
 from soundcalc.zkvms.risc0 import Risc0Preset
 from soundcalc.zkvms.miden import MidenPreset
 from soundcalc.zkvms.zisk import ZiskPreset
@@ -60,6 +61,7 @@ def main() -> None:
         ZiskPreset.default(),
         MidenPreset.default(),
         Risc0Preset.default(),
+        DummyWHIRPreset.default(),
     ]
 
     # Analyze each zkVM
@@ -69,7 +71,7 @@ def main() -> None:
         sections[zkvm.get_name()] = (zkvm, security_levels)
 
     # Generate and save markdown report
-    generate_and_save_md_report(sections)
+    # generate_and_save_md_report(sections)
 
 if __name__ == "__main__":
     main()
