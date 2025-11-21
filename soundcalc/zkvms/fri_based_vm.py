@@ -145,13 +145,51 @@ class FRIBasedVM(zkVM):
     def get_name(self) -> str:
         return self.name
 
-    def get_parameters(self) -> str:
+    def get_parameter_summary(self) -> str:
         """
         Returns a description of the parameters of the zkVM.
-        The description is given as a string.
+        The description is given as a string; formatted so that it looks good
+        in both console output and in markdown reports.
         """
-        # TODO: insert something here
-        return ""
+
+        # We put everything inside a markdown code block so it looks
+        # identical in plain terminal output.
+        lines = []
+        lines.append("")
+        lines.append("```")
+
+        # Key–value table
+        params = {
+            "name": self.name,
+            "hash_size_bits": self.hash_size_bits,
+            "rho": self.rho,
+            "k = -log2(rho)": self.k,
+            "trace_length": self.trace_length,
+            "h = log2(trace_length)": self.h,
+            "domain_size D = trace_length / rho": self.D,
+            "num_columns": self.num_columns,
+            "num_polys": self.num_polys,
+            "power_batching": self.power_batching,
+            "num_queries": self.num_queries,
+            "max_combo": self.max_combo,
+            "FRI_folding_factor": self.FRI_folding_factor,
+            "FRI_early_stop_degree": self.FRI_early_stop_degree,
+            "FRI_rounds_n": self.FRI_rounds_n,
+            "grinding_query_phase": self.grinding_query_phase,
+            "AIR_max_degree": self.AIR_max_degree,
+            "field": self.field.to_string(),
+            "field_extension_degree": self.field_extension_degree,
+        }
+
+        # Determine alignment width
+        key_width = max(len(k) for k in params.keys())
+
+        # Format lines with aligned columns
+        for k, v in params.items():
+            lines.append(f"  {k:<{key_width}} : {v}")
+
+        lines.append("```")
+        return "\n".join(lines)
 
     def get_proof_size_bits(self) -> int:
         """

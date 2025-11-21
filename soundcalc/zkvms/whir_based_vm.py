@@ -35,7 +35,7 @@ class WHIRBasedVM(zkVM):
     def get_name(self) -> str:
         return self.name
 
-    def get_parameters(self) -> str:
+    def get_parameter_summary(self) -> str:
         raise NotImplementedError
 
     def get_proof_size_bits(self) -> int:

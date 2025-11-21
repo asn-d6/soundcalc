@@ -11,7 +11,7 @@ class zkVM:
         """
         raise NotImplementedError
 
-    def get_parameters(self) -> str:
+    def get_parameter_summary(self) -> str:
         """
         Returns a description of the parameters of the zkVM.
         The description is given as a string.

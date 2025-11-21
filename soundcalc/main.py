@@ -13,38 +13,6 @@ from soundcalc.report import build_markdown_report
 from soundcalc.zkvms.zkvm import zkVM
 
 
-def get_rbr_levels_for_zkevm_and_regime(regime, params) -> dict[str, int]:
-
-    # the round-by-round errors consist of the ones for FRI and for the proof system
-    # and we also add a total, which is the minimum over all of them.
-
-    fri_levels = regime.get_rbr_levels(params)
-    list_size = regime.get_bound_on_list_size(params)
-
-    proof_system_levels = get_DEEP_ALI_errors(list_size, params)
-
-    total = min(list(fri_levels.values()) + list(proof_system_levels.values()))
-
-    return fri_levels | proof_system_levels | {"total": total}
-
-
-
-def compute_security_for_zkevm(fri_regimes: list, params) -> dict[str, dict]:
-    """
-    Compute bits of security for a single zkEVM across all security regimes.
-    """
-    results: dict[str, dict] = {}
-
-    # first all reasonable regimes
-    for fri_regime in fri_regimes:
-        rbr_errors = get_rbr_levels_for_zkevm_and_regime(fri_regime, params)
-        results[fri_regime.identifier()] = rbr_errors
-
-    # now the security based on the best known attack - for reference
-    results["best attack"] = best_attack_security(params)
-
-    return results
-
 
 def generate_and_save_md_report(sections) -> None:
     """
@@ -63,14 +31,17 @@ def print_summary_for_zkvm(zkvm: zkVM) -> None:
     """
     Print a summary of security results for a single zkVM.
     """
-    print(f"zkVM: {zkvm.get_name()}")
+    print("")
+    print("#############################################")
+    print(f"#  zkVM: {zkvm.get_name()}")
+    print("#############################################")
     proof_size_kib = zkvm.get_proof_size_bits() // KIB
     print("")
-    print(f"    proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
+    print(f"proof size estimate: {proof_size_kib} KiB, where 1 KiB = 1024 bytes")
     print("")
-    print(f"    parameters: \n {zkvm.get_parameters()}")
+    print(f"parameters: \n {zkvm.get_parameter_summary()}")
     print("")
-    print(f"    security levels (rbr): \n {json.dumps(zkvm.get_security_levels(), indent=4)}")
+    print(f"security levels (rbr): \n {json.dumps(zkvm.get_security_levels(), indent=4)}")
     print("")
     print("")
     print("")
