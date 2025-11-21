@@ -3,16 +3,14 @@
 
 🚧 **WIP right now. Please give us some time.** 🚧
 
+> 🔎 **Latest report lives in [`results.md`](results.md)**
+
 A universal soundness calculator across FRI-based zkEVM proof systems and security regimes.
 
 It aims to answer questions like:
 - "What if RISC0 moves from Babybear⁴ to Goldilocks³?"
 - "What if OpenVM moves from the Toy Problem heuristic to the provable Johnson Bound Regime?"
 - "What if ZisK moves from the Toy Problem heuristic to the provable Unique Decoding Regime?"
-
-## Results
-
-See the latest results in [`results.md`](results.md).
 
 You can run the calculator by doing `python3 -m soundcalc`.
 As a result, the calculator generates / updates [`results.md`](results.md).

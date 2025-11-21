@@ -52,7 +52,7 @@ class MidenPreset:
         hash_size_bits = 256 # TODO: check if that is actually true
 
         cfg = zkEVMConfig(
-            name="miden",
+            name="Miden",
             hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,

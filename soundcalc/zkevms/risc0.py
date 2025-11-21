@@ -45,7 +45,7 @@ class Risc0Preset:
         hash_size_bits = 256 # TODO: check if that is actually true
 
         cfg = zkEVMConfig(
-            name="risc0",
+            name="RISC0",
             hash_size_bits=hash_size_bits,
             rho=rho,
             trace_length=trace_length,

@@ -12,13 +12,18 @@ from soundcalc.common.utils import KIB
 def build_markdown_report(sections) -> str:
 
     lines: list[str] = []
-    lines.append("# zkEVM soundcalc report")
+    lines.append("# 📊 soundcalc report")
     lines.append("")
-    lines.append("Each row is a zkEVM proof system.\nEach column is a different component of the proof system.\nThe cell values are the bits of security for each such component.")
+    lines.append("How to read this report:")
+    lines.append("- Choose a zkEVM")
+    lines.append("- Table rows correspond to security regimes")
+    lines.append("- Table columns correspond to proof system components")
+    lines.append("- Cells show bits of security per component")
+    lines.append("- Proof size estimate is only indicative")
     lines.append("")
 
     # ToC
-    lines.append("## zkEVMs")
+    lines.append("# Supported zkEVMs")
     for zkevm in sections:
         anchor = zkevm.lower().replace(" ", "-")
         lines.append(f"- [{zkevm}](#{anchor})")

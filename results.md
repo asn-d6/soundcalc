@@ -1,13 +1,16 @@
-# zkEVM soundcalc report
+# 📊 soundcalc report
 
-Each row is a zkEVM proof system.
-Each column is a different component of the proof system.
-The cell values are the bits of security for each such component.
+How to read this report:
+- Choose a zkEVM
+- Table rows correspond to security regimes
+- Table columns correspond to proof system components
+- Cells show bits of security per component
+- Proof size estimate is only indicative
 
-## zkEVMs
+# Supported zkEVMs
 - [ZisK](#zisk)
-- [miden](#miden)
-- [risc0](#risc0)
+- [Miden](#miden)
+- [RISC0](#risc0)
 
 ## ZisK
 
@@ -27,7 +30,7 @@ The cell values are the bits of security for each such component.
 | JBR | 58 | 181 | 163 | 142 | 159 | 58 |
 | best attack | 128 | — | — | — | — | — |
 
-## miden
+## Miden
 
 **Parameters:**
 - Number of queries: 27
@@ -45,7 +48,7 @@ The cell values are the bits of security for each such component.
 | JBR | 55 | 115 | 101 | 77 | 98 | 55 |
 | best attack | 96 | — | — | — | — | — |
 
-## risc0
+## RISC0
 
 **Parameters:**
 - Number of queries: 50
