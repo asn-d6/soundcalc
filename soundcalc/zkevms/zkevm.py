@@ -111,7 +111,7 @@ class zkEVMParams:
         self.proof_size_bits = get_FRI_proof_size_bits(
             hash_size_bits=self.hash_size_bits,
             field_size_bits=field_element_size_bits(zkevm_cfg.field),
-            num_functions=self.num_queries,
+            num_functions=self.num_polys,
             num_queries=self.num_queries,
             witness_size=int(self.D),
             field_extension_degree=int(self.field_extension_degree),
