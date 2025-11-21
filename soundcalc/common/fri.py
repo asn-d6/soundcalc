@@ -8,7 +8,7 @@ import math
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..zkevms.zkevm import zkEVMParams
+    from ..zkvms.zkvm import FRIBasedVM
 
 def get_johnson_parameter_m() -> float:
     """

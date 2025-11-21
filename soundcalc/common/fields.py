@@ -18,6 +18,12 @@ class FieldParams:
     # Extension field size |F| = p^{ext_size}
     F: float
 
+    def to_string(self) -> str:
+        """
+        Returns a human-readable string representing the field,
+        """
+        return self.name
+
 
 def _F(p: int, ext_size: int) -> float:
     # Keep as float to match existing zkEVMConfig expectations
